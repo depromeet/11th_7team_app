@@ -9,8 +9,6 @@ export function Share() {
   const [sharedExtraData, setSharedExtraData] = useState<object>({});
 
   const handleShare = useCallback((item?: ShareData) => {
-    console.log('입장', item);
-
     if (!item) {
       return;
     }
@@ -24,8 +22,6 @@ export function Share() {
 
   useEffect(() => {
     if (handleShare) {
-      console.log(handleShare);
-
       ShareMenu.getInitialShare(handleShare);
     }
   }, [handleShare]);
