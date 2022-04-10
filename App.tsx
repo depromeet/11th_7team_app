@@ -3,6 +3,7 @@ import { SafeAreaView, ScrollView, StatusBar, Text, useColorScheme, View } from 
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 import Foo from '~/screens/Foo';
+import { Share } from '~/screens/Share';
 
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -17,6 +18,7 @@ const App = () => {
           }}
         >
           <Foo />
+          <Share />
           <Text>YGT</Text>
         </View>
       </ScrollView>
