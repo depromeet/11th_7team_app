@@ -9,8 +9,8 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
+				<!-- TODO: 스키명 재정의하기 -->
 				<string>mycustomscheme</string>
-				<!-- This url scheme doesn't contain :// at the end - E.G. "mycustomscheme"-->
 			</array>
 		</dict>
 	</array>

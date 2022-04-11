@@ -5,6 +5,7 @@
 	<key>HostAppBundleIdentifier</key>
 	<string>org.reactjs.native.example.ygt</string>
 	<key>HostAppURLScheme</key>
+	<!-- TODO: 스키명 재정의하기 -->
 	<string>mycustomscheme://</string>
 	<key>NSExtension</key>
 	<dict>
