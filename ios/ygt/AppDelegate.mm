@@ -6,7 +6,7 @@
 
 #import <React/RCTAppSetupUtils.h>
 
-#import <RNShareMenu/ShareMenuManager.h> // 꼭 여기 있어야됨 #if RCT_NEW_ARCH_ENABLED요거 위에
+#import <RNShareMenu/ShareMenuManager.h>
 
 #if RCT_NEW_ARCH_ENABLED
 #import <React/CoreModulesPlugins.h>
@@ -64,10 +64,6 @@
 {
 #if DEBUG
   return [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index"];
-  /*
-    return [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
-    fallbackResource:nil요걸 제거하면 잘됩니다. 그래서 ReactShareViewController.swift .jsBundleURL(forBundleRoot: "index.share", fallbackResource: nil) 여기서도 fallbackResource: nil 제거 해야됩니다.
-  */
 #else
   return [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
 #endif
