@@ -4,7 +4,7 @@ import { SafeAreaView } from 'react-native';
 
 import theme from '~/styles/theme';
 
-function Splash() {
+function SplashScreen() {
   const onSplashFinish = () => {
     console.log('ye');
   };
@@ -20,4 +20,4 @@ function Splash() {
   );
 }
 
-export default Splash;
+export default SplashScreen;

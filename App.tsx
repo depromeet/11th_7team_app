@@ -1,17 +1,20 @@
 import React from 'react';
-import { SafeAreaView, StatusBar } from 'react-native';
-import { WebView } from 'react-native-webview';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import theme from '~/styles/theme';
+import HomeScreen from '~/screens/HomeScreen';
+import SplashScreen from '~/screens/SplashScreen';
+
+const Stack = createNativeStackNavigator();
 
 const App = () => {
   return (
-    <>
-      <StatusBar barStyle="default" />
-      <SafeAreaView style={{ flex: 1, backgroundColor: theme.color.background }}>
-        <WebView source={{ uri: 'https://app.ygtang.kr' }} />
-      </SafeAreaView>
-    </>
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Splash">
+        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="Splash" component={SplashScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 };
 

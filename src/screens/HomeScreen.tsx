@@ -4,7 +4,7 @@ import { WebView } from 'react-native-webview';
 
 import theme from '~/styles/theme';
 
-function Main() {
+function HomeScreen() {
   return (
     <>
       <StatusBar barStyle="default" />
@@ -15,4 +15,4 @@ function Main() {
   );
 }
 
-export default Main;
+export default HomeScreen;
