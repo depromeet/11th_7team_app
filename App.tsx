@@ -1,21 +1,23 @@
 import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { SafeAreaView, StatusBar, StyleSheet } from 'react-native';
 
-import HomeScreen from '~/screens/HomeScreen';
-import SplashScreen from '~/screens/SplashScreen';
+import MainNavigator from '~/navigation/MainNavigator';
+import theme from '~/styles/theme';
 
-const Stack = createNativeStackNavigator();
-
-const App = () => {
+export default function App() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="Splash">
-        <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="Splash" component={SplashScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <>
+      <StatusBar barStyle="default" />
+      <SafeAreaView style={styles.root}>
+        <MainNavigator />
+      </SafeAreaView>
+    </>
   );
-};
+}
 
-export default App;
+const styles = StyleSheet.create({
+  root: {
+    flex: 1,
+    backgroundColor: theme.color.background,
+  },
+});

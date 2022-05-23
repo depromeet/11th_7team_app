@@ -1,23 +1,41 @@
 import React from 'react';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import LottieView from 'lottie-react-native';
-import { SafeAreaView } from 'react-native';
+import { SafeAreaView, StatusBar, StyleSheet } from 'react-native';
 
+import { MainNavigatorParamsType } from '~/navigation/MainNavigator';
 import theme from '~/styles/theme';
 
-function SplashScreen() {
+interface SplashScreenProp {
+  navigation: NativeStackNavigationProp<MainNavigatorParamsType>;
+}
+
+export default function SplashScreen({ navigation: { replace } }: SplashScreenProp) {
   const onSplashFinish = () => {
-    console.log('ye');
+    replace('Home');
+    console.log(replace);
   };
+
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: theme.color.background }}>
-      <LottieView
-        source={require('../../assets/ygt-splash.json')}
-        autoPlay
-        loop={false}
-        onAnimationFinish={onSplashFinish}
-      />
-    </SafeAreaView>
+    <>
+      <StatusBar barStyle="default" />
+      <SafeAreaView style={styles.root}>
+        <LottieView
+          source={require('../assets/ygt-splash.json')}
+          autoPlay
+          loop={false}
+          onAnimationFinish={onSplashFinish}
+        />
+      </SafeAreaView>
+    </>
   );
 }
 
-export default SplashScreen;
+const styles = StyleSheet.create({
+  root: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    backgroundColor: theme.color.background,
+  },
+});
