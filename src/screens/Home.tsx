@@ -4,7 +4,7 @@ import { WebView } from 'react-native-webview';
 
 import theme from '~/styles/theme';
 
-const App = () => {
+function Main() {
   return (
     <>
       <StatusBar barStyle="default" />
@@ -13,6 +13,6 @@ const App = () => {
       </SafeAreaView>
     </>
   );
-};
+}
 
-export default App;
+export default Main;
