@@ -13,7 +13,6 @@ interface SplashScreenProp {
 export default function SplashScreen({ navigation: { replace } }: SplashScreenProp) {
   const onSplashFinish = () => {
     replace('Home');
-    console.log(replace);
   };
 
   return (
