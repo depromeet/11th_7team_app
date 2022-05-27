@@ -17,7 +17,7 @@ export default function SplashScreen({ navigation: { replace } }: SplashScreenPr
 
   return (
     <>
-      <StatusBar barStyle="default" />
+      <StatusBar barStyle="dark-content" backgroundColor={theme.color.background} />
       <SafeAreaView style={styles.root}>
         <LottieView
           source={require('../assets/ygt-splash.json')}
