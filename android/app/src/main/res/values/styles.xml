@@ -6,6 +6,7 @@
         <item name="android:editTextBackground">@drawable/rn_edit_text_material</item>
         <item name="android:navigationBarColor">#D6DBDC</item>
         <item name="android:navigationBarDividerColor">#D6DBDC</item>
+        <item name="android:windowLightNavigationBar">true</item>
     </style>
 
 </resources>
