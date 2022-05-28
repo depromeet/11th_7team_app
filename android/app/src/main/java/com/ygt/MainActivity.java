@@ -1,4 +1,4 @@
-package com.ygt;
+package kr.ygtang;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
