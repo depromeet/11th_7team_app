@@ -21,6 +21,7 @@ export default function HomeScreen() {
       <SafeAreaView style={{ flex: 1, backgroundColor: theme.color.background }}>
         <WebView
           source={{ uri }}
+          bounces={false}
           onNavigationStateChange={handleExternalLinks}
           onShouldStartLoadWithRequest={handleExternalLinks}
         />
