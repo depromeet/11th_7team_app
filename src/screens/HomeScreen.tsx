@@ -22,6 +22,7 @@ export default function HomeScreen() {
         <WebView
           source={{ uri }}
           bounces={false}
+          domStorageEnabled
           onNavigationStateChange={handleExternalLinks}
           onShouldStartLoadWithRequest={handleExternalLinks}
         />
