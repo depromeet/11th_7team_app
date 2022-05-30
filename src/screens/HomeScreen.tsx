@@ -8,7 +8,7 @@ export default function HomeScreen() {
   const uri = 'https://app.ygtang.kr/';
   return (
     <>
-      <StatusBar barStyle="default" />
+      <StatusBar barStyle="dark-content" backgroundColor={theme.color.background} />
       <SafeAreaView style={{ flex: 1, backgroundColor: theme.color.background }}>
         <WebView
           source={{ uri }}
