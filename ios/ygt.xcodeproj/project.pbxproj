@@ -44,6 +44,7 @@
 		5DCACB8F33CDC322A6C60F78 /* libPods-ygt.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ygt.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = ygt/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-ygt-ygtTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ygt-ygtTests.release.xcconfig"; path = "Target Support Files/Pods-ygt-ygtTests/Pods-ygt-ygtTests.release.xcconfig"; sourceTree = "<group>"; };
+		B03FCED5284657D1007DC76D /* ygtRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = ygtRelease.entitlements; path = ygt/ygtRelease.entitlements; sourceTree = "<group>"; };
 		B04B4B96284649BA001EB5ED /* app icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "app icon.png"; path = "../../../../Downloads/app icon.png"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -88,6 +89,7 @@
 		13B07FAE1A68108700A75B9A /* ygt */ = {
 			isa = PBXGroup;
 			children = (
+				B03FCED5284657D1007DC76D /* ygtRelease.entitlements */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
@@ -477,7 +479,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = ygt/ygtRelease.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = GAR7FJFUYZ;
 				INFOPLIST_FILE = ygt/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
