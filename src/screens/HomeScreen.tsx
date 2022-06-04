@@ -1,5 +1,5 @@
 import React from 'react';
-import { Linking, Platform, StatusBar, View } from 'react-native';
+import { Dimensions, Linking, Platform, StatusBar, View } from 'react-native';
 import { WebView, WebViewNavigation } from 'react-native-webview';
 
 import theme from '~/styles/theme';
@@ -20,6 +20,19 @@ export default function HomeScreen() {
     return true;
   };
 
+  const INJECTED_JAVASCRIPT = `(function() {
+    const style = document.createElement('style');
+    style.innerHTML = \`
+      .safeAreaTop {
+        height: ${StatusBar.currentHeight}px !important;
+      }
+      .safeAreaBottom {
+        height: ${Dimensions.get('screen').height - Dimensions.get('window').height}px !important;
+      }
+    \`;
+    document.head.appendChild(style);
+  })();`;
+
   return (
     <View style={{ flex: 1, backgroundColor: theme.color.background }}>
       <StatusBar
@@ -31,6 +44,8 @@ export default function HomeScreen() {
       <WebView
         source={{ uri }}
         bounces={false}
+        injectedJavaScript={INJECTED_JAVASCRIPT}
+        applicationNameForUserAgent={'YgtangApp/1.0'}
         domStorageEnabled
         onNavigationStateChange={handleExternalLinks}
         onShouldStartLoadWithRequest={handleExternalLinks}
