@@ -21,7 +21,7 @@ export default function SplashScreen({ navigation: { replace } }: SplashScreenPr
         source={require('../assets/ygt-splash.json')}
         autoPlay
         loop={false}
-        style={{ height: 374, marginBottom: 34 }}
+        style={{ width: '100%', height: 374 }}
         onAnimationFinish={onSplashFinish}
       />
     </View>
@@ -34,5 +34,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'flex-end',
     backgroundColor: theme.color.gray02,
+    paddingLeft: 16,
+    paddingRight: 16,
+    paddingBottom: 34,
   },
 });
