@@ -1,5 +1,5 @@
 import React from 'react';
-import { SafeAreaView, StatusBar, StyleSheet } from 'react-native';
+import { StatusBar, StyleSheet, View } from 'react-native';
 
 import MainNavigator from '~/navigation/MainNavigator';
 import theme from '~/styles/theme';
@@ -7,10 +7,10 @@ import theme from '~/styles/theme';
 export default function App() {
   return (
     <>
-      <StatusBar barStyle="default" />
-      <SafeAreaView style={styles.root}>
+      <StatusBar hidden />
+      <View style={styles.root}>
         <MainNavigator />
-      </SafeAreaView>
+      </View>
     </>
   );
 }
