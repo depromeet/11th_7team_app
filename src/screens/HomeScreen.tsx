@@ -28,7 +28,7 @@ export default function HomeScreen() {
         <WebView
           source={{ uri }}
           bounces={false}
-          allowsBackForwardNavigationGestures
+          domStorageEnabled
           onNavigationStateChange={handleExternalLinks}
           onShouldStartLoadWithRequest={handleExternalLinks}
         />
