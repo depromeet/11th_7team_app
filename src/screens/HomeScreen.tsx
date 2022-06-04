@@ -1,5 +1,5 @@
 import React from 'react';
-import { Linking, Platform, StatusBar, View } from 'react-native';
+import { Linking, Platform, View } from 'react-native';
 import { WebView, WebViewNavigation } from 'react-native-webview';
 
 import theme from '~/styles/theme';
@@ -21,17 +21,14 @@ export default function HomeScreen() {
   };
 
   return (
-    <>
-      <StatusBar barStyle="dark-content" backgroundColor={theme.color.background} />
-      <View style={{ flex: 1, backgroundColor: theme.color.background }}>
-        <WebView
-          source={{ uri }}
-          bounces={false}
-          domStorageEnabled
-          onNavigationStateChange={handleExternalLinks}
-          onShouldStartLoadWithRequest={handleExternalLinks}
-        />
-      </View>
-    </>
+    <View style={{ flex: 1, backgroundColor: theme.color.background }}>
+      <WebView
+        source={{ uri }}
+        bounces={false}
+        domStorageEnabled
+        onNavigationStateChange={handleExternalLinks}
+        onShouldStartLoadWithRequest={handleExternalLinks}
+      />
+    </View>
   );
 }
