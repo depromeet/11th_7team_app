@@ -49,9 +49,9 @@
 		</dict>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>직접 촬영한 이미지를 첨부하기 위해 $(PRODUCT_NAME) 앱이 카메라에 접근합니다.</string>
+	<string>영감탱은 영감을 아카이빙하는 앱으로 사용자의 이미지를 저장할 수 있습니다. 카메라로 촬영한 이미지로 영감을 생성할 수 있습니다. 따라서 직접 촬영한 이미지를 첨부하기 위해 $(PRODUCT_NAME) 앱이 카메라에 접근합니다.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>이미지를 첨부하기 위해 $(PRODUCT_NAME) 앱이 앨범에 접근합니다.</string>
+	<string>영감탱은 영감을 아카이빙하는 앱으로 사용자의 이미지를 저장할 수 있습니다. 앨범의 이미지로 영감을 생성할 수 있습니다. 따라서 이미지를 첨부하기 위해 $(PRODUCT_NAME) 앱이 앨범에 접근합니다.</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>
