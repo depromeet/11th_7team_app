@@ -21,7 +21,7 @@ export default function SplashScreen({ navigation: { replace } }: SplashScreenPr
         source={require('../assets/ygt-splash.json')}
         autoPlay
         loop={false}
-        style={{ width: '100%', height: 374 }}
+        style={{ height: 374 }}
         onAnimationFinish={onSplashFinish}
       />
     </View>
