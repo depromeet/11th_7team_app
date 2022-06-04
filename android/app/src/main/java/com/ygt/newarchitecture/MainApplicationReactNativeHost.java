@@ -1,4 +1,4 @@
-package com.ygt.newarchitecture;
+package kr.ygtang.newarchitecture;
 
 import android.app.Application;
 import androidx.annotation.NonNull;
@@ -19,9 +19,9 @@ import com.facebook.react.fabric.CoreComponentsRegistry;
 import com.facebook.react.fabric.EmptyReactNativeConfig;
 import com.facebook.react.fabric.FabricJSIModuleProvider;
 import com.facebook.react.uimanager.ViewManagerRegistry;
-import com.ygt.BuildConfig;
-import com.ygt.newarchitecture.components.MainComponentsRegistry;
-import com.ygt.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
+import kr.ygtang.BuildConfig;
+import kr.ygtang.newarchitecture.components.MainComponentsRegistry;
+import kr.ygtang.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
 import java.util.ArrayList;
 import java.util.List;
 
