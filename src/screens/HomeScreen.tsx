@@ -1,12 +1,16 @@
-import React from 'react';
+import React, { createRef, useState } from 'react';
 import { Linking, Platform, StatusBar, View } from 'react-native';
 import { WebView, WebViewNavigation } from 'react-native-webview';
 
+import { Error } from '~/components/Error';
 import theme from '~/styles/theme';
 
 const uri = 'https://app.ygtang.kr/';
 
 export default function HomeScreen() {
+  const [isError, setIsError] = useState(false);
+  const webViewRef = createRef<WebView>();
+
   const handleExternalLinks = (event: WebViewNavigation) => {
     const isExternalLink = Platform.OS === 'ios' ? event.navigationType === 'click' : true;
     if (isExternalLink) {
@@ -20,6 +24,17 @@ export default function HomeScreen() {
     return true;
   };
 
+  if (isError) {
+    return (
+      <Error
+        reload={() => {
+          setIsError(false);
+          webViewRef.current?.reload();
+        }}
+      />
+    );
+  }
+
   return (
     <View style={{ flex: 1, backgroundColor: theme.color.background }}>
       <StatusBar
@@ -29,9 +44,13 @@ export default function HomeScreen() {
         hidden={false}
       />
       <WebView
+        ref={webViewRef}
         source={{ uri }}
         bounces={false}
         domStorageEnabled
+        onError={() => {
+          setIsError(true);
+        }}
         onNavigationStateChange={handleExternalLinks}
         onShouldStartLoadWithRequest={handleExternalLinks}
       />
