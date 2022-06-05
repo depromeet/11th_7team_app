@@ -1,13 +1,14 @@
 import React from 'react';
-import { StatusBar, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
+import { YgtStatusBar } from '~/components/YgtStatusBar';
 import MainNavigator from '~/navigation/MainNavigator';
 import theme from '~/styles/theme';
 
 export default function App() {
   return (
     <>
-      <StatusBar hidden />
+      <YgtStatusBar />
       <View style={styles.root}>
         <MainNavigator />
       </View>
