@@ -1,13 +1,16 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import { Linking, Platform, StatusBar, View } from 'react-native';
 import { WebView, WebViewNavigation } from 'react-native-webview';
 
+import { Error } from '~/components/Error';
 import { useAndroidSafeArea } from '~/hooks/useAndroidSafeArea';
 import theme from '~/styles/theme';
 
 const uri = 'https://app.ygtang.kr/';
 
 export default function HomeScreen() {
+  const [isError, setIsError] = useState(false);
+  const webViewRef = useRef<WebView>();
   const { androidSafeAreaInjectScript } = useAndroidSafeArea();
 
   const handleExternalLinks = (event: WebViewNavigation) => {
@@ -23,6 +26,17 @@ export default function HomeScreen() {
     return true;
   };
 
+  if (isError) {
+    return (
+      <Error
+        reload={() => {
+          setIsError(false);
+          webViewRef.current?.reload();
+        }}
+      />
+    );
+  }
+
   return (
     <View style={{ flex: 1, backgroundColor: theme.color.background }}>
       <StatusBar
@@ -32,6 +46,10 @@ export default function HomeScreen() {
         hidden={false}
       />
       <WebView
+        ref={ref => {
+          if (!ref) return;
+          webViewRef.current = ref;
+        }}
         source={{ uri }}
         bounces={false}
         injectedJavaScript={
@@ -41,6 +59,9 @@ export default function HomeScreen() {
         }
         applicationNameForUserAgent={'YgtangApp/1.0'}
         domStorageEnabled
+        onError={() => {
+          setIsError(true);
+        }}
         onNavigationStateChange={handleExternalLinks}
         onShouldStartLoadWithRequest={handleExternalLinks}
       />
