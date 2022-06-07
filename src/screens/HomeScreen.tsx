@@ -1,4 +1,4 @@
-import React, { createRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Linking, Platform, StatusBar, View } from 'react-native';
 import { WebView, WebViewNavigation } from 'react-native-webview';
 
@@ -9,7 +9,7 @@ const uri = 'https://app.ygtang.kr/';
 
 export default function HomeScreen() {
   const [isError, setIsError] = useState(false);
-  const webViewRef = createRef<WebView>();
+  const webViewRef = useRef<WebView>();
 
   const handleExternalLinks = (event: WebViewNavigation) => {
     const isExternalLink = Platform.OS === 'ios' ? event.navigationType === 'click' : true;
@@ -44,7 +44,10 @@ export default function HomeScreen() {
         hidden={false}
       />
       <WebView
-        ref={webViewRef}
+        ref={ref => {
+          if (!ref) return;
+          webViewRef.current = ref;
+        }}
         source={{ uri }}
         bounces={false}
         domStorageEnabled
