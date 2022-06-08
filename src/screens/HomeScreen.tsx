@@ -58,6 +58,7 @@ export default function HomeScreen() {
           })();` as string
         }
         applicationNameForUserAgent={'YgtangApp/1.0'}
+        allowsBackForwardNavigationGestures
         domStorageEnabled
         onError={() => {
           setIsError(true);
