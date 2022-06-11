@@ -1,9 +1,9 @@
 import React, { useRef, useState } from 'react';
-import { Linking, Platform, StatusBar, View } from 'react-native';
+import { Linking, Platform, View } from 'react-native';
 import { WebView, WebViewNavigation } from 'react-native-webview';
 
 import { Error } from '~/components/Error';
-import { useAndroidSafeArea } from '~/hooks/useAndroidSafeArea';
+import { YgtStatusBar } from '~/components/YgtStatusBar';
 import theme from '~/styles/theme';
 
 const uri = 'https://app.ygtang.kr/';
@@ -11,7 +11,6 @@ const uri = 'https://app.ygtang.kr/';
 export default function HomeScreen() {
   const [isError, setIsError] = useState(false);
   const webViewRef = useRef<WebView>();
-  const { androidSafeAreaInjectScript } = useAndroidSafeArea();
 
   const handleExternalLinks = (event: WebViewNavigation) => {
     const isExternalLink = Platform.OS === 'ios' ? event.navigationType === 'click' : true;
@@ -39,12 +38,7 @@ export default function HomeScreen() {
 
   return (
     <View style={{ flex: 1, backgroundColor: theme.color.background }}>
-      <StatusBar
-        translucent
-        backgroundColor="transparent"
-        barStyle={'dark-content'}
-        hidden={false}
-      />
+      <YgtStatusBar />
       <WebView
         ref={ref => {
           if (!ref) return;
@@ -52,11 +46,6 @@ export default function HomeScreen() {
         }}
         source={{ uri }}
         bounces={false}
-        injectedJavaScript={
-          `(function(){
-            ${[androidSafeAreaInjectScript].join('\n')}
-          })();` as string
-        }
         applicationNameForUserAgent={'YgtangApp/1.0'}
         allowsBackForwardNavigationGestures
         domStorageEnabled
