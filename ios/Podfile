@@ -40,5 +40,6 @@ target 'ShareExtention' do
   use_react_native!
 
   pod 'RNShareMenu', :path => '../node_modules/react-native-share-menu'
+  pod 'react-native-webview', :path => '../node_modules/react-native-webview'
   # Manually link packages here to keep your extension bundle size minimal
 end
