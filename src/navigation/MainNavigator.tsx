@@ -1,14 +1,10 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import {
-  createStackNavigator,
-  StackCardStyleInterpolator,
-  StackNavigationOptions,
-} from '@react-navigation/stack';
-import { TransitionSpec } from '@react-navigation/stack/lib/typescript/src/types';
+import { createStackNavigator, StackNavigationOptions } from '@react-navigation/stack';
 
 import HomeScreen from '~/screens/HomeScreen';
 import SplashScreen from '~/screens/SplashScreen';
+import theme from '~/styles/theme';
 
 export type MainNavigatorParamsType = {
   Home: undefined;
@@ -17,30 +13,8 @@ export type MainNavigatorParamsType = {
 
 const Stack = createStackNavigator<MainNavigatorParamsType>();
 
-const animationConfig: TransitionSpec = {
-  animation: 'timing',
-  config: {
-    duration: 0,
-    delay: 0,
-  },
-};
-
-const cardStyleInterpolator: StackCardStyleInterpolator = () => {
-  return {
-    overlayStyle: {
-      backgroundColor: 'transparent',
-    },
-    cardTransparent: true,
-  };
-};
-
 const screenOptions: StackNavigationOptions = {
   presentation: 'transparentModal',
-  gestureEnabled: false,
-  transitionSpec: {
-    open: animationConfig,
-    close: animationConfig,
-  },
 };
 
 export default function MainNavigator() {
@@ -50,7 +24,7 @@ export default function MainNavigator() {
         initialRouteName="Splash"
         screenOptions={() => ({
           headerShown: false,
-          cardStyleInterpolator: cardStyleInterpolator,
+          backgroundColor: theme.color.gray02,
         })}
       >
         <Stack.Screen name="Home" component={HomeScreen} options={screenOptions} />
