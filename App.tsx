@@ -5,6 +5,8 @@ import { YgtStatusBar } from '~/components/YgtStatusBar';
 import MainNavigator from '~/navigation/MainNavigator';
 import theme from '~/styles/theme';
 
+import 'react-native-gesture-handler';
+
 export default function App() {
   return (
     <>
