@@ -1,5 +1,5 @@
 import React from 'react';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { StackNavigationProp } from '@react-navigation/stack';
 import LottieView from 'lottie-react-native';
 import { StyleSheet, View } from 'react-native';
 
@@ -7,7 +7,7 @@ import { MainNavigatorParamsType } from '~/navigation/MainNavigator';
 import theme from '~/styles/theme';
 
 interface SplashScreenProp {
-  navigation: NativeStackNavigationProp<MainNavigatorParamsType>;
+  navigation: StackNavigationProp<MainNavigatorParamsType>;
 }
 
 export default function SplashScreen({ navigation: { replace } }: SplashScreenProp) {
@@ -22,7 +22,7 @@ export default function SplashScreen({ navigation: { replace } }: SplashScreenPr
         autoPlay
         loop={false}
         duration={2000}
-        style={{ height: 374 }}
+        style={{ height: 374, backgroundColor: theme.color.gray02 }}
         onAnimationFinish={onSplashFinish}
       />
     </View>
