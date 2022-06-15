@@ -5,6 +5,7 @@
 #import <React/RCTRootView.h>
 
 #import <React/RCTAppSetupUtils.h>
+#import <RNShareMenu/ShareMenuManager.h>
 
 #if RCT_NEW_ARCH_ENABLED
 #import <React/CoreModulesPlugins.h>
@@ -129,5 +130,13 @@ static NSString *const kRNConcurrentRoot = @"concurrentRoot";
 }
 
 #endif
+
+
+- (BOOL)application:(UIApplication *)app
+        openURL:(NSURL *)url
+        options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options
+{
+  return [ShareMenuManager application:app openURL:url options:options];
+}
 
 @end
