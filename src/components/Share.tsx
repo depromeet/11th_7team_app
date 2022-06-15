@@ -1,8 +1,8 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Linking, Platform, View } from "react-native";
-import { ShareMenuReactView } from "react-native-share-menu";
-import { WebView, WebViewMessageEvent, WebViewNavigation } from "react-native-webview";
-import URL from  'url-parse';
+import React, { useEffect, useRef, useState } from 'react';
+import { Linking, Platform, View } from 'react-native';
+import { ShareMenuReactView } from 'react-native-share-menu';
+import { WebView, WebViewMessageEvent, WebViewNavigation } from 'react-native-webview';
+import URL from 'url-parse';
 
 import { Error } from '~/components/Error';
 import { YgtStatusBar } from '~/components/YgtStatusBar';
@@ -14,12 +14,12 @@ const CONTENT_TYPE = {
   IMAGE: 'IMAGE',
   TEXT: 'TEXT',
   LINK: 'LINK',
-} as const
+} as const;
 
 const SHARE_EXTENTION_MESSAGE_TYPE = 'YgtangAppShareData';
 const SHARE_WEB_MESSAGE_STATE = 'YgtangWebShareState';
 
-async function urlTo64File(url:string):Promise<string | ArrayBuffer> {
+async function urlTo64File(url: string): Promise<string | ArrayBuffer> {
   const data = await fetch(url);
   const blob = await data.blob();
   return new Promise(resolve => {
@@ -32,8 +32,7 @@ async function urlTo64File(url:string):Promise<string | ArrayBuffer> {
   });
 }
 
-function isURL(url: string):boolean {
-  
+function isURL(url: string): boolean {
   return URL(url).origin !== 'null';
 }
 
@@ -43,28 +42,26 @@ const Share = () => {
   const [contentType, setContentType] = useState<string>('');
   const webViewRef = useRef<WebView>();
 
-  const setContentHandler = async ({data, mimeType}: {data: string; mimeType:string;}) => {
-    console.log(data, mimeType);
-    if(mimeType.startsWith("image/")) {
+  const setContentHandler = async ({ data, mimeType }: { data: string; mimeType: string }) => {
+    if (mimeType.startsWith('image/')) {
       setContentType(CONTENT_TYPE.IMAGE);
       const imageData = await urlTo64File(data);
       setSharedData(imageData);
-    } else if(mimeType !== "text/plain") {
-      ShareMenuReactView.dismissExtension("지원하지 않는 형식입니다.");
-    } else if(isURL(data)) {
-      setContentType(CONTENT_TYPE.LINK)
+    } else if (mimeType !== 'text/plain') {
+      ShareMenuReactView.dismissExtension('지원하지 않는 형식입니다.');
+    } else if (isURL(data)) {
+      setContentType(CONTENT_TYPE.LINK);
       setSharedData(data);
     } else {
-      setContentType(CONTENT_TYPE.TEXT)
+      setContentType(CONTENT_TYPE.TEXT);
       setSharedData(data);
     }
-  }
+  };
 
   const handleExternalLinks = (event: WebViewNavigation) => {
     const isExternalLink = Platform.OS === 'ios' ? event.navigationType === 'click' : true;
     if (isExternalLink) {
       Linking.canOpenURL(event.url).then(supported => {
-        console.log(supported);
         if (supported) {
           Linking.openURL(event.url);
         }
@@ -75,21 +72,23 @@ const Share = () => {
   };
 
   const sendDataToWebView = () => {
-    if(!webViewRef?.current) return;
-    webViewRef.current.postMessage(JSON.stringify({
-      type: SHARE_EXTENTION_MESSAGE_TYPE,
-      data: sharedData,
-    }));
-  }
+    if (!webViewRef?.current) return;
+    webViewRef.current.postMessage(
+      JSON.stringify({
+        type: SHARE_EXTENTION_MESSAGE_TYPE,
+        data: sharedData,
+      })
+    );
+  };
 
   const onReciveMessage = (event: WebViewMessageEvent) => {
     const data = JSON.parse(event.nativeEvent.data);
-    if(data.type !== SHARE_WEB_MESSAGE_STATE || data.data !== 'READY') return;
-    sendDataToWebView()
-  }
+    if (data.type !== SHARE_WEB_MESSAGE_STATE || data.data !== 'READY') return;
+    sendDataToWebView();
+  };
 
   const getAddContentURI = () => {
-    switch(contentType) {
+    switch (contentType) {
       case CONTENT_TYPE.IMAGE:
         return BASE_URI + 'add/image';
       case CONTENT_TYPE.LINK:
@@ -97,13 +96,13 @@ const Share = () => {
       case CONTENT_TYPE.TEXT:
         return BASE_URI + 'add/text';
       default:
-        return'';
+        return '';
     }
-  }
+  };
 
   useEffect(() => {
-    (ShareMenuReactView).data().then(data => {
-      if(Platform.OS === 'ios')setContentHandler(data);
+    ShareMenuReactView.data().then(data => {
+      if (Platform.OS === 'ios') setContentHandler(data);
     });
   }, []);
 
@@ -121,25 +120,27 @@ const Share = () => {
   return (
     <View style={{ flex: 1, backgroundColor: theme.color.background }}>
       <YgtStatusBar />
-      {sharedData && <WebView
-        ref={ref => {
-          if (!ref) return;
-          webViewRef.current = ref;
-        }}
-        source={{ uri: getAddContentURI() }}
-        bounces={false}
-        applicationNameForUserAgent={'YgtangApp/1.0'}
-        allowsBackForwardNavigationGestures
-        domStorageEnabled
-        onError={() => {
-          setIsError(true);
-        }}
-        onNavigationStateChange={handleExternalLinks}
-        onShouldStartLoadWithRequest={handleExternalLinks}
-        onMessage={onReciveMessage}
-      />}
+      {sharedData && (
+        <WebView
+          ref={ref => {
+            if (!ref) return;
+            webViewRef.current = ref;
+          }}
+          source={{ uri: getAddContentURI() }}
+          bounces={false}
+          applicationNameForUserAgent={'YgtangApp/1.0'}
+          allowsBackForwardNavigationGestures
+          domStorageEnabled
+          onError={() => {
+            setIsError(true);
+          }}
+          onNavigationStateChange={handleExternalLinks}
+          onShouldStartLoadWithRequest={handleExternalLinks}
+          onMessage={onReciveMessage}
+        />
+      )}
     </View>
   );
 };
 
-export default Share; 
+export default Share;
