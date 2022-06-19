@@ -24,6 +24,12 @@ export default function App() {
     setShareMimeType(mimeType);
   }, []);
 
+  const closeShareView = () => {
+    setShareMenu(false);
+    setShareData(null);
+    setShareMimeType(null);
+  };
+
   useEffect(() => {
     ShareMenu.getInitialShare(handleShare);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -39,7 +45,7 @@ export default function App() {
   }, []);
 
   if (shareMenu && shareData && shareMimeType) {
-    return <ShareHandler data={shareData} mimeType={shareMimeType} />;
+    return <ShareHandler data={shareData} mimeType={shareMimeType} handleClose={closeShareView} />;
   }
 
   return (

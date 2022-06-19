@@ -38,9 +38,10 @@ function isURL(url: string): boolean {
 interface Props {
   data: string;
   mimeType: string;
+  handleClose?: () => void;
 }
 
-export const ShareHandler = ({ data, mimeType }: Props) => {
+export const ShareHandler = ({ data, mimeType, handleClose }: Props) => {
   // webview
   const [isError, setIsError] = useState(false);
   const webViewRef = useRef<WebView>();
@@ -65,6 +66,19 @@ export const ShareHandler = ({ data, mimeType }: Props) => {
       return false;
     }
     return true;
+  };
+
+  const handleNavigateChange = (event: WebViewNavigation) => {
+    if (
+      handleClose &&
+      Platform.OS === 'android' &&
+      event.canGoForward === true &&
+      event.url === 'about:blank'
+    ) {
+      handleClose();
+    }
+
+    return handleExternalLinks(event);
   };
 
   const sendDataToWebView = () => {
@@ -146,8 +160,8 @@ export const ShareHandler = ({ data, mimeType }: Props) => {
         onError={() => {
           setIsError(true);
         }}
-        onNavigationStateChange={handleExternalLinks}
-        onShouldStartLoadWithRequest={handleExternalLinks}
+        onNavigationStateChange={handleNavigateChange}
+        onShouldStartLoadWithRequest={handleNavigateChange}
         onMessage={onReciveMessage}
       />
     </View>
