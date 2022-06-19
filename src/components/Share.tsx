@@ -8,7 +8,7 @@ import { Error } from '~/components/Error';
 import { YgtStatusBar } from '~/components/YgtStatusBar';
 import theme from '~/styles/theme';
 
-const BASE_URI = 'https://app.ygtang.kr/';
+const BASE_URI = 'http://localhost:3000/';
 
 const CONTENT_TYPE = {
   IMAGE: 'IMAGE',
@@ -39,10 +39,12 @@ function isURL(url: string): boolean {
 const Share = () => {
   const [isError, setIsError] = useState(false);
   const [sharedData, setSharedData] = useState<string | ArrayBuffer>();
+  const [sharedMimeType, setSharedMimeType] = useState<string | ArrayBuffer>();
   const [contentType, setContentType] = useState<string>('');
   const webViewRef = useRef<WebView>();
 
   const setContentHandler = async ({ data, mimeType }: { data: string; mimeType: string }) => {
+    setSharedMimeType(mimeType);
     if (mimeType.startsWith('image/')) {
       setContentType(CONTENT_TYPE.IMAGE);
       const imageData = await urlTo64File(data);
@@ -77,6 +79,7 @@ const Share = () => {
       JSON.stringify({
         type: SHARE_EXTENTION_MESSAGE_TYPE,
         data: sharedData,
+        mimeType: sharedMimeType,
       })
     );
   };
