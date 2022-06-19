@@ -110,7 +110,6 @@ const Share = () => {
   useEffect(() => {
     ShareMenuReactView.data().then(data => {
       if (Platform.OS === 'ios') setContentHandler(data);
-      console.log(data);
     });
   }, []);
 

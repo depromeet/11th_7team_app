@@ -69,6 +69,7 @@ export const ShareHandler = ({ data, mimeType }: Props) => {
 
   const sendDataToWebView = () => {
     if (!webViewRef?.current) return;
+
     webViewRef.current.postMessage(
       JSON.stringify({
         type: SHARE_EXTENTION_MESSAGE_TYPE,
