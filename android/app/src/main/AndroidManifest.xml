@@ -33,22 +33,10 @@
                     android:host="main" />
             </intent-filter>
             <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:scheme="https"
-                    android:host="app.ygtang.kr"
-                    android:pathPrefix="/signup/sent-email" />
-            </intent-filter>
-            <intent-filter>
                 <action android:name="android.intent.action.SEND" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <data android:mimeType="text/plain" />
                 <data android:mimeType="image/*" />
-                <!-- Any other mime types you want to support -->
             </intent-filter>
         </activity>
     </application>
