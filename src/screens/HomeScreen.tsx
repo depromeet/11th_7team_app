@@ -1,9 +1,9 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { Animated, Linking, Platform, View } from 'react-native';
+import { Animated, Linking, Platform } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { WebView, WebViewNavigation } from 'react-native-webview';
 
 import { Error } from '~/components/Error';
-import { YgtStatusBar } from '~/components/YgtStatusBar';
 import theme from '~/styles/theme';
 
 const uri = 'https://app.ygtang.kr/';
@@ -50,8 +50,10 @@ export default function HomeScreen() {
   }
 
   return (
-    <View style={{ flex: 1, backgroundColor: theme.color.background }}>
-      <YgtStatusBar />
+    <SafeAreaView
+      edges={['right', 'top', 'left']}
+      style={{ flex: 1, backgroundColor: theme.color.background }}
+    >
       <Animated.View
         style={{
           width: '100%',
@@ -80,6 +82,6 @@ export default function HomeScreen() {
           }}
         />
       </Animated.View>
-    </View>
+    </SafeAreaView>
   );
 }
