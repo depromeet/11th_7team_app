@@ -5,7 +5,6 @@ import { WebView, WebViewMessageEvent, WebViewNavigation } from 'react-native-we
 import URL from 'url-parse';
 
 import { Error } from '~/components/Error';
-import { YgtStatusBar } from '~/components/YgtStatusBar';
 import theme from '~/styles/theme';
 
 const BASE_URI = 'https://app.ygtang.kr/';
@@ -36,36 +35,27 @@ function isURL(url: string): boolean {
   return URL(url).origin !== 'null';
 }
 
-const Share = () => {
+interface Props {
+  data: string;
+  mimeType: string;
+}
+
+export const ShareHandler = ({ data, mimeType }: Props) => {
+  // webview
   const [isError, setIsError] = useState(false);
-  const [sharedData, setSharedData] = useState<string | ArrayBuffer>();
-  const [sharedMimeType, setSharedMimeType] = useState<string | ArrayBuffer>();
-  const [contentType, setContentType] = useState<string>('');
   const webViewRef = useRef<WebView>();
 
-  const setContentHandler = async ({ data, mimeType }: { data: string; mimeType: string }) => {
-    setSharedMimeType(mimeType);
-    if (mimeType.startsWith('image/')) {
-      setContentType(CONTENT_TYPE.IMAGE);
-      const imageData = await urlTo64File(data);
-      setSharedData(imageData);
-    } else if (mimeType !== 'text/plain') {
-      ShareMenuReactView.dismissExtension('지원하지 않는 형식입니다.');
-    } else if (isURL(data)) {
-      setContentType(CONTENT_TYPE.LINK);
-      setSharedData(data);
-    } else {
-      setContentType(CONTENT_TYPE.TEXT);
-      setSharedData(data);
-    }
-  };
+  // share
+  const [contentType, setContentType] = useState<string>('');
+  const [sharedData, setSharedData] = useState<string | ArrayBuffer>();
+  const [sharedMimeType, setSharedMimeType] = useState<string | ArrayBuffer>();
 
   const handleExternalLinks = (event: WebViewNavigation) => {
     if (Platform.OS !== 'ios') {
       return false;
     }
 
-    const isExternalLink = event.navigationType === 'click';
+    const isExternalLink = Platform.OS === 'ios' ? event.navigationType === 'click' : true;
     if (isExternalLink) {
       Linking.canOpenURL(event.url).then(supported => {
         if (supported) {
@@ -88,12 +78,6 @@ const Share = () => {
     );
   };
 
-  const onReciveMessage = (event: WebViewMessageEvent) => {
-    const data = JSON.parse(event.nativeEvent.data);
-    if (data.type !== SHARE_WEB_MESSAGE_STATE || data.data !== 'READY') return;
-    sendDataToWebView();
-  };
-
   const getAddContentURI = () => {
     switch (contentType) {
       case CONTENT_TYPE.IMAGE:
@@ -107,12 +91,33 @@ const Share = () => {
     }
   };
 
+  const onReciveMessage = (event: WebViewMessageEvent) => {
+    const data = JSON.parse(event.nativeEvent.data);
+    if (data.type !== SHARE_WEB_MESSAGE_STATE || data.data !== 'READY') return;
+    sendDataToWebView();
+  };
+
   useEffect(() => {
-    ShareMenuReactView.data().then(data => {
-      if (Platform.OS === 'ios') setContentHandler(data);
-      console.log(data);
-    });
-  }, []);
+    if (data && mimeType) {
+      setSharedMimeType(mimeType);
+      if (mimeType.startsWith('image/')) {
+        setContentType(CONTENT_TYPE.IMAGE);
+
+        // Promise
+        urlTo64File(data).then(imageData => {
+          setSharedData(imageData);
+        });
+      } else if (mimeType !== 'text/plain') {
+        ShareMenuReactView.dismissExtension('지원하지 않는 형식입니다.');
+      } else if (isURL(data)) {
+        setContentType(CONTENT_TYPE.LINK);
+        setSharedData(data);
+      } else {
+        setContentType(CONTENT_TYPE.TEXT);
+        setSharedData(data);
+      }
+    }
+  }, [data, mimeType]);
 
   if (isError) {
     return (
@@ -127,28 +132,23 @@ const Share = () => {
 
   return (
     <View style={{ flex: 1, backgroundColor: theme.color.background }}>
-      <YgtStatusBar />
-      {sharedData && (
-        <WebView
-          ref={ref => {
-            if (!ref) return;
-            webViewRef.current = ref;
-          }}
-          source={{ uri: getAddContentURI() }}
-          bounces={false}
-          applicationNameForUserAgent={'YgtangApp/1.0'}
-          allowsBackForwardNavigationGestures
-          domStorageEnabled
-          onError={() => {
-            setIsError(true);
-          }}
-          onNavigationStateChange={handleExternalLinks}
-          onShouldStartLoadWithRequest={handleExternalLinks}
-          onMessage={onReciveMessage}
-        />
-      )}
+      <WebView
+        ref={ref => {
+          if (!ref) return;
+          webViewRef.current = ref;
+        }}
+        source={{ uri: getAddContentURI() }}
+        bounces={false}
+        applicationNameForUserAgent={'YgtangApp/1.0'}
+        allowsBackForwardNavigationGestures
+        domStorageEnabled
+        onError={() => {
+          setIsError(true);
+        }}
+        onNavigationStateChange={handleExternalLinks}
+        onShouldStartLoadWithRequest={handleExternalLinks}
+        onMessage={onReciveMessage}
+      />
     </View>
   );
 };
-
-export default Share;

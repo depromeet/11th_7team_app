@@ -22,7 +22,11 @@ export default function HomeScreen() {
   }, [animationConfig]);
 
   const handleExternalLinks = (event: WebViewNavigation) => {
-    const isExternalLink = Platform.OS === 'ios' ? event.navigationType === 'click' : true;
+    if (Platform.OS !== 'ios') {
+      return false;
+    }
+
+    const isExternalLink = event.navigationType === 'click';
     if (isExternalLink) {
       Linking.canOpenURL(event.url).then(supported => {
         if (supported) {
