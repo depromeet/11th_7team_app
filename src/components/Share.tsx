@@ -8,7 +8,7 @@ import { Error } from '~/components/Error';
 import { YgtStatusBar } from '~/components/YgtStatusBar';
 import theme from '~/styles/theme';
 
-const BASE_URI = 'http://localhost:3000/';
+const BASE_URI = 'https://app.ygtang.kr/';
 
 const CONTENT_TYPE = {
   IMAGE: 'IMAGE',
