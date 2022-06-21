@@ -1,21 +1,31 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Animated, Linking, Platform } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { WebView, WebViewNavigation } from 'react-native-webview';
+import { WebView, WebViewMessageEvent, WebViewNavigation } from 'react-native-webview';
 
 import { Error } from '~/components/Error';
+import { useShareWebToken } from '~/hooks/useShareWebToken';
 import theme from '~/styles/theme';
 
-const uri = 'https://app.ygtang.kr/';
+const SYNC_YGT_RT = 'SYNC_YGT_RT';
+
+// const uri = 'https://app.ygtang.kr/';
+const uri = 'http://localhost:3000/';
 
 export default function HomeScreen() {
   const [isError, setIsError] = useState(false);
   const webViewRef = useRef<WebView>();
   const fadeAnimationRef = useRef(new Animated.Value(0));
+  const { makeInjectedJavaScript, setRefreshToken } = useShareWebToken();
 
   const animationConfig: Animated.TimingAnimationConfig = useMemo(() => {
     return { useNativeDriver: false, toValue: 1, duration: 1700 };
   }, []);
+
+  const handleLoadEnd = async () => {
+    const injectedRefreshJavaScript = await makeInjectedJavaScript();
+    webViewRef?.current?.injectJavaScript(injectedRefreshJavaScript || '');
+  };
 
   useEffect(() => {
     Animated.timing(fadeAnimationRef.current, animationConfig).start();
@@ -49,6 +59,14 @@ export default function HomeScreen() {
     );
   }
 
+  const onReciveMessage = async (event: WebViewMessageEvent) => {
+    const data = JSON.parse(event.nativeEvent.data);
+
+    if (data.type === SYNC_YGT_RT) {
+      await setRefreshToken(data.data);
+    }
+  };
+
   return (
     <SafeAreaView
       edges={['right', 'top', 'left']}
@@ -71,6 +89,7 @@ export default function HomeScreen() {
           bounces={false}
           applicationNameForUserAgent={'YgtangApp/1.0'}
           allowsBackForwardNavigationGestures
+          onLoadEnd={handleLoadEnd}
           domStorageEnabled
           onError={() => {
             setIsError(true);
@@ -80,8 +99,11 @@ export default function HomeScreen() {
           style={{
             backgroundColor: theme.color.background,
           }}
+          onMessage={onReciveMessage}
         />
       </Animated.View>
     </SafeAreaView>
   );
 }
+
+//https://github.com/react-native-webview/react-native-webview/issues/1291

@@ -6,9 +6,10 @@ import URL from 'url-parse';
 
 import { Error } from '~/components/Error';
 import { YgtStatusBar } from '~/components/YgtStatusBar';
+import { useShareWebToken } from '~/hooks/useShareWebToken';
 import theme from '~/styles/theme';
 
-const BASE_URI = 'https://app.ygtang.kr/';
+const BASE_URI = 'http://localhost:3000/';
 
 const CONTENT_TYPE = {
   IMAGE: 'IMAGE',
@@ -18,6 +19,7 @@ const CONTENT_TYPE = {
 
 const SHARE_EXTENTION_MESSAGE_TYPE = 'YgtangAppShareData';
 const SHARE_WEB_MESSAGE_STATE = 'YgtangWebShareState';
+const SYNC_YGT_RT = 'SYNC_YGT_RT';
 
 async function urlTo64File(url: string): Promise<string | ArrayBuffer> {
   const data = await fetch(url);
@@ -42,6 +44,7 @@ const Share = () => {
   const [sharedMimeType, setSharedMimeType] = useState<string | ArrayBuffer>();
   const [contentType, setContentType] = useState<string>('');
   const webViewRef = useRef<WebView>();
+  const { makeInjectedJavaScript, setRefreshToken } = useShareWebToken();
 
   const setContentHandler = async ({ data, mimeType }: { data: string; mimeType: string }) => {
     setSharedMimeType(mimeType);
@@ -88,10 +91,14 @@ const Share = () => {
     );
   };
 
-  const onReciveMessage = (event: WebViewMessageEvent) => {
+  const onReciveMessage = async (event: WebViewMessageEvent) => {
     const data = JSON.parse(event.nativeEvent.data);
-    if (data.type !== SHARE_WEB_MESSAGE_STATE || data.data !== 'READY') return;
-    sendDataToWebView();
+    if (data.type === SYNC_YGT_RT) {
+      await setRefreshToken(data.data);
+    }
+    if (data.type === SHARE_WEB_MESSAGE_STATE && data.data === 'READY') {
+      sendDataToWebView();
+    }
   };
 
   const getAddContentURI = () => {
@@ -109,7 +116,9 @@ const Share = () => {
 
   useEffect(() => {
     ShareMenuReactView.data().then(data => {
-      if (Platform.OS === 'ios') setContentHandler(data);
+      if (Platform.OS === 'ios') {
+        setContentHandler(data);
+      }
     });
   }, []);
 
@@ -124,6 +133,11 @@ const Share = () => {
     );
   }
 
+  const handleLoadEnd = async () => {
+    const injectedRefreshJavaScript = await makeInjectedJavaScript();
+    webViewRef?.current?.injectJavaScript(injectedRefreshJavaScript || '');
+  };
+
   return (
     <View style={{ flex: 1, backgroundColor: theme.color.background }}>
       <YgtStatusBar />
@@ -134,6 +148,7 @@ const Share = () => {
             webViewRef.current = ref;
           }}
           source={{ uri: getAddContentURI() }}
+          onLoadEnd={handleLoadEnd}
           bounces={false}
           applicationNameForUserAgent={'YgtangApp/1.0'}
           allowsBackForwardNavigationGestures
