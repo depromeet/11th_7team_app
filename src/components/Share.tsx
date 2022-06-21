@@ -6,20 +6,20 @@ import URL from 'url-parse';
 
 import { Error } from '~/components/Error';
 import { YgtStatusBar } from '~/components/YgtStatusBar';
+import {
+  BASE_URI,
+  SHARE_EXTENTION_MESSAGE_TYPE,
+  SHARE_WEB_MESSAGE_STATE,
+  SYNC_YGT_RT,
+} from '~/constants/common';
 import { useShareWebToken } from '~/hooks/useShareWebToken';
 import theme from '~/styles/theme';
-
-const BASE_URI = 'http://localhost:3000/';
 
 const CONTENT_TYPE = {
   IMAGE: 'IMAGE',
   TEXT: 'TEXT',
   LINK: 'LINK',
 } as const;
-
-const SHARE_EXTENTION_MESSAGE_TYPE = 'YgtangAppShareData';
-const SHARE_WEB_MESSAGE_STATE = 'YgtangWebShareState';
-const SYNC_YGT_RT = 'SYNC_YGT_RT';
 
 async function urlTo64File(url: string): Promise<string | ArrayBuffer> {
   const data = await fetch(url);

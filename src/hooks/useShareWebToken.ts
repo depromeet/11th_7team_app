@@ -1,13 +1,12 @@
 import { Platform } from 'react-native';
 import SharedGroupPreferences from 'react-native-shared-group-preferences';
 
-const SYNC_YGT_RT = 'SYNC_YGT_RT';
+import { APP_GROUP_KEY, SYNC_YGT_RT } from '~/constants/common';
+
 const localStorageUserTokenKeys = {
   accessToken: 'ygtlsat',
   refreshToken: 'ygtrfhtk',
 } as const;
-
-const APP_GROUP_KEY = 'group.org.reactjs.native.example.ygt-share';
 
 export function useShareWebToken() {
   const setRefreshToken = async (value: string) => {

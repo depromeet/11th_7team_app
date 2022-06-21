@@ -4,13 +4,9 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { WebView, WebViewMessageEvent, WebViewNavigation } from 'react-native-webview';
 
 import { Error } from '~/components/Error';
+import { BASE_URI, SYNC_YGT_RT } from '~/constants/common';
 import { useShareWebToken } from '~/hooks/useShareWebToken';
 import theme from '~/styles/theme';
-
-const SYNC_YGT_RT = 'SYNC_YGT_RT';
-
-// const uri = 'https://app.ygtang.kr/';
-const uri = 'http://localhost:3000/';
 
 export default function HomeScreen() {
   const [isError, setIsError] = useState(false);
@@ -85,7 +81,7 @@ export default function HomeScreen() {
             if (!ref) return;
             webViewRef.current = ref;
           }}
-          source={{ uri }}
+          source={{ uri: BASE_URI }}
           bounces={false}
           applicationNameForUserAgent={'YgtangApp/1.0'}
           allowsBackForwardNavigationGestures
