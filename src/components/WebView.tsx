@@ -1,5 +1,5 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { Animated, Linking, Platform } from 'react-native';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { Animated, BackHandler, Linking, Platform } from 'react-native';
 import { WebView as RnWebView, WebViewMessageEvent, WebViewNavigation } from 'react-native-webview';
 
 import { Error } from '~/components/Error';
@@ -50,6 +50,24 @@ export default function WebView({ uri, ref, onMessage, onNavigate }: WebViewProp
     }
     return handleExternalLinks(event);
   };
+
+  const handleBackButtonPress = useCallback(() => {
+    try {
+      webViewRef.current?.goBack();
+      return true;
+    } catch (err) {
+      console.log('[handleBackButtonPress] Error : ', err);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (Platform.OS === 'android') {
+      BackHandler.addEventListener('hardwareBackPress', handleBackButtonPress);
+      return () => {
+        BackHandler.removeEventListener('hardwareBackPress', handleBackButtonPress);
+      };
+    }
+  }, [handleBackButtonPress]);
 
   if (isError) {
     return (
