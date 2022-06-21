@@ -22,14 +22,16 @@ module.exports = {
       },
       extends: [
         'eslint:recommended',
+        'prettier',
         'plugin:@typescript-eslint/recommended',
         'plugin:react/recommended',
         'plugin:react-hooks/recommended',
         'plugin:import/typescript',
         'plugin:import/recommended',
       ],
-      plugins: ['react', 'react-native', 'import', 'simple-import-sort'],
+      plugins: ['prettier','react', 'react-native', 'import', 'simple-import-sort'],
       rules: {
+        'prettier/prettier': 'error',
         '@typescript-eslint/naming-convention': [
           'error',
           {
