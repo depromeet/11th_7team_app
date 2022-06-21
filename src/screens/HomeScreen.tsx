@@ -105,5 +105,3 @@ export default function HomeScreen() {
     </SafeAreaView>
   );
 }
-
-//https://github.com/react-native-webview/react-native-webview/issues/1291
