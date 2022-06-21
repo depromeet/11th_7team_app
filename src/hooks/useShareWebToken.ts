@@ -7,22 +7,17 @@ const localStorageUserTokenKeys = {
   refreshToken: 'ygtrfhtk',
 } as const;
 
+const APP_GROUP_KEY = 'group.org.reactjs.native.example.ygt-share';
+
 export function useShareWebToken() {
   const setRefreshToken = async (value: string) => {
-    await SharedGroupPreferences.setItem(
-      SYNC_YGT_RT,
-      value,
-      'group.org.reactjs.native.example.ygt-share'
-    );
+    await SharedGroupPreferences.setItem(SYNC_YGT_RT, value, APP_GROUP_KEY);
   };
 
   const makeInjectedJavaScript = async () => {
     if (Platform.OS !== 'ios') return `(function() {})();`;
     try {
-      const refreshToken = await SharedGroupPreferences.getItem(
-        SYNC_YGT_RT,
-        'group.org.reactjs.native.example.ygt-share'
-      );
+      const refreshToken = await SharedGroupPreferences.getItem(SYNC_YGT_RT, APP_GROUP_KEY);
       return `(function() {window.localStorage.setItem('${localStorageUserTokenKeys.refreshToken}','${refreshToken}');})();`;
     } catch (error) {
       if (error === 0) console.error('App Group이 없습니다.');
