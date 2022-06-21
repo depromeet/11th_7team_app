@@ -302,6 +302,8 @@ PODS:
     - React-Core
   - RNGestureHandler (2.5.0):
     - React-Core
+  - RNReactNativeSharedGroupPreferences (1.1.23):
+    - React
   - RNReanimated (2.8.0):
     - DoubleConversion
     - FBLazyVector
@@ -376,6 +378,7 @@ DEPENDENCIES:
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - "RNCMaskedView (from `../node_modules/@react-native-masked-view/masked-view`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
+  - RNReactNativeSharedGroupPreferences (from `../node_modules/react-native-shared-group-preferences`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNShareMenu (from `../node_modules/react-native-share-menu`)
@@ -460,6 +463,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-masked-view/masked-view"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
+  RNReactNativeSharedGroupPreferences:
+    :path: "../node_modules/react-native-shared-group-preferences"
   RNReanimated:
     :path: "../node_modules/react-native-reanimated"
   RNScreens:
@@ -508,11 +513,12 @@ SPEC CHECKSUMS:
   ReactCommon: 74a3b8ee497c6d50ce86ef57e15c4c5bf654b83d
   RNCMaskedView: c298b644a10c0c142055b3ae24d83879ecb13ccd
   RNGestureHandler: bad495418bcbd3ab47017a38d93d290ebd406f50
+  RNReactNativeSharedGroupPreferences: de0121a4224c267bc7e9fb16c398f3f087c8da81
   RNReanimated: a362ff32bd44dd587568272a41308cd4196375e7
   RNScreens: 40a2cb40a02a609938137a1e0acfbf8fc9eebf19
   RNShareMenu: c69282e50ac439737a86949a55c7b023b90027c8
   Yoga: 4935173923cabaa830e195be3e8e4cac045a8f90
 
-PODFILE CHECKSUM: 9e6a045fbd08408bb7b9f7990034366123008648
+PODFILE CHECKSUM: 2b77dd83f71f8b03d9230a395efaed5dcb38e2b5
 
 COCOAPODS: 1.11.3
