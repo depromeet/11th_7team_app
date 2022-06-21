@@ -58,7 +58,7 @@ export default function WebView({ uri, ref, onMessage, onNavigate }: WebViewProp
     } catch (err) {
       console.log('[handleBackButtonPress] Error : ', err);
     }
-  }, []);
+  }, [webViewRef]);
 
   useEffect(() => {
     if (Platform.OS === 'android') {
