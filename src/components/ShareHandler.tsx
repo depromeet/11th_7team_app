@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Linking, Platform, View } from 'react-native';
+import { Platform, View } from 'react-native';
 import { ShareMenuReactView } from 'react-native-share-menu';
-import { WebView, WebViewMessageEvent, WebViewNavigation } from 'react-native-webview';
+import { WebView as RnWebView, WebViewMessageEvent, WebViewNavigation } from 'react-native-webview';
 import URL from 'url-parse';
 
-import { Error } from '~/components/Error';
+import WebView from '~/components/WebView';
 import theme from '~/styles/theme';
 
 const BASE_URI = 'https://app.ygtang.kr/';
@@ -42,43 +42,23 @@ interface Props {
 }
 
 export const ShareHandler = ({ data, mimeType, handleClose }: Props) => {
-  // webview
-  const [isError, setIsError] = useState(false);
-  const webViewRef = useRef<WebView>();
+  const webViewRef = useRef<RnWebView>();
 
   // share
   const [contentType, setContentType] = useState<string>('');
   const [sharedData, setSharedData] = useState<string | ArrayBuffer>();
   const [sharedMimeType, setSharedMimeType] = useState<string | ArrayBuffer>();
 
-  const handleExternalLinks = (event: WebViewNavigation) => {
-    if (Platform.OS !== 'ios') {
-      return false;
-    }
-
-    const isExternalLink = Platform.OS === 'ios' ? event.navigationType === 'click' : true;
-    if (isExternalLink) {
-      Linking.canOpenURL(event.url).then(supported => {
-        if (supported) {
-          Linking.openURL(event.url);
-        }
-      });
-      return false;
-    }
-    return true;
-  };
-
   const handleNavigateChange = (event: WebViewNavigation) => {
     if (
       handleClose &&
       Platform.OS === 'android' &&
-      event.canGoForward === true &&
+      event.canGoForward &&
       event.url === 'about:blank'
     ) {
       handleClose();
     }
-
-    return handleExternalLinks(event);
+    return false;
   };
 
   const sendDataToWebView = () => {
@@ -106,7 +86,7 @@ export const ShareHandler = ({ data, mimeType, handleClose }: Props) => {
     }
   };
 
-  const onReciveMessage = (event: WebViewMessageEvent) => {
+  const onReceiveMessage = (event: WebViewMessageEvent) => {
     const data = JSON.parse(event.nativeEvent.data);
     if (data.type !== SHARE_WEB_MESSAGE_STATE || data.data !== 'READY') return;
     sendDataToWebView();
@@ -134,35 +114,12 @@ export const ShareHandler = ({ data, mimeType, handleClose }: Props) => {
     }
   }, [data, mimeType]);
 
-  if (isError) {
-    return (
-      <Error
-        reload={() => {
-          setIsError(false);
-          webViewRef.current?.reload();
-        }}
-      />
-    );
-  }
-
   return (
     <View style={{ flex: 1, backgroundColor: theme.color.background }}>
       <WebView
-        ref={ref => {
-          if (!ref) return;
-          webViewRef.current = ref;
-        }}
-        source={{ uri: getAddContentURI() }}
-        bounces={false}
-        applicationNameForUserAgent={'YgtangApp/1.0'}
-        allowsBackForwardNavigationGestures
-        domStorageEnabled
-        onError={() => {
-          setIsError(true);
-        }}
-        onNavigationStateChange={handleNavigateChange}
-        onShouldStartLoadWithRequest={handleNavigateChange}
-        onMessage={onReciveMessage}
+        uri={getAddContentURI()}
+        onMessage={onReceiveMessage}
+        onNavigate={handleNavigateChange}
       />
     </View>
   );
