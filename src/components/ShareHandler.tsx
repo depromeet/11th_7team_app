@@ -69,8 +69,10 @@ export const ShareHandler = ({ data, mimeType, handleClose, onMessage, onLoadEnd
     if (onLoadEnd) {
       onLoadEnd();
     }
-    const injectedRefreshJavaScript = await makeInjectedJavaScript();
-    webViewRef?.current?.injectJavaScript(injectedRefreshJavaScript || '');
+    if (Platform.OS === 'ios') {
+      const injectedRefreshJavaScript = await makeInjectedJavaScript();
+      webViewRef?.current?.injectJavaScript(injectedRefreshJavaScript || '');
+    }
   };
 
   const sendDataToWebView = () => {
@@ -105,7 +107,7 @@ export const ShareHandler = ({ data, mimeType, handleClose, onMessage, onLoadEnd
     const data = JSON.parse(event.nativeEvent.data);
 
     // ShareWebToken
-    if (data.type === SYNC_YGT_RT) {
+    if (Platform.OS === 'ios' && data.type === SYNC_YGT_RT) {
       await setRefreshToken(data.data);
     }
 
