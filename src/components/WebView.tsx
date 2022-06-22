@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { LegacyRef, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Animated, BackHandler, Linking, Platform } from 'react-native';
 import { WebView as RnWebView, WebViewMessageEvent, WebViewNavigation } from 'react-native-webview';
 
@@ -8,15 +8,16 @@ import theme from '~/styles/theme';
 interface WebViewProps {
   uri: string;
   // eslint-disable-next-line @typescript-eslint/ban-types
-  ref?: React.MutableRefObject<RnWebView<{}> | undefined>;
+  customRef?: (ref: any) => void | undefined;
   onMessage?: (event: WebViewMessageEvent) => void;
   onNavigate?: (event: WebViewNavigation) => boolean;
 }
 
-export default function WebView({ uri, ref, onMessage, onNavigate }: WebViewProps) {
+export default function WebView({ uri, customRef, onMessage, onNavigate }: WebViewProps) {
   const [isError, setIsError] = useState(false);
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const webViewRef = ref ?? useRef<RnWebView>();
+
+  const webViewRef = useRef<RnWebView>();
   const fadeAnimationRef = useRef(new Animated.Value(0));
 
   const animationConfig: Animated.TimingAnimationConfig = useMemo(() => {
@@ -90,10 +91,14 @@ export default function WebView({ uri, ref, onMessage, onNavigate }: WebViewProp
       }}
     >
       <RnWebView
-        ref={ref => {
-          if (!ref) return;
-          webViewRef.current = ref;
-        }}
+        ref={
+          customRef
+            ? customRef
+            : ref => {
+                if (!ref) return;
+                webViewRef.current = ref;
+              }
+        }
         source={{ uri }}
         bounces={false}
         applicationNameForUserAgent={'YgtangApp/1.0'}

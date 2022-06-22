@@ -2,9 +2,8 @@ import React from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import WebView from '~/components/WebView';
+import { BASE_URI } from '~/constants/uri';
 import theme from '~/styles/theme';
-
-const uri = 'https://app.ygtang.kr/';
 
 export default function HomeScreen() {
   return (
@@ -12,7 +11,7 @@ export default function HomeScreen() {
       edges={['right', 'top', 'left']}
       style={{ flex: 1, backgroundColor: theme.color.background }}
     >
-      <WebView uri={uri} />
+      <WebView uri={BASE_URI} />
     </SafeAreaView>
   );
 }

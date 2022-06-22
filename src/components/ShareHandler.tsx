@@ -5,9 +5,8 @@ import { WebView as RnWebView, WebViewMessageEvent, WebViewNavigation } from 're
 import URL from 'url-parse';
 
 import WebView from '~/components/WebView';
+import { BASE_URI } from '~/constants/uri';
 import theme from '~/styles/theme';
-
-const BASE_URI = 'https://app.ygtang.kr/';
 
 const CONTENT_TYPE = {
   IMAGE: 'IMAGE',
@@ -118,6 +117,10 @@ export const ShareHandler = ({ data, mimeType, handleClose }: Props) => {
     <View style={{ flex: 1, backgroundColor: theme.color.background }}>
       <WebView
         uri={getAddContentURI()}
+        customRef={ref => {
+          if (!ref) return;
+          webViewRef.current = ref;
+        }}
         onMessage={onReceiveMessage}
         onNavigate={handleNavigateChange}
       />
