@@ -4,7 +4,7 @@
 <dict>
 	<key>com.apple.security.application-groups</key>
 	<array>
-		<string>group.org.reactjs.native.example.ygt-container</string>
+		<string>group.org.reactjs.native.example.ygt-share</string>
 	</array>
 </dict>
 </plist>

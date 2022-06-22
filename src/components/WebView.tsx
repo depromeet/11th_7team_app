@@ -1,4 +1,4 @@
-import React, { LegacyRef, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Animated, BackHandler, Linking, Platform } from 'react-native';
 import { WebView as RnWebView, WebViewMessageEvent, WebViewNavigation } from 'react-native-webview';
 
@@ -11,12 +11,18 @@ interface WebViewProps {
   customRef?: (ref: any) => void | undefined;
   onMessage?: (event: WebViewMessageEvent) => void;
   onNavigate?: (event: WebViewNavigation) => boolean;
+  onLoadEnd?: () => void;
 }
 
-export default function WebView({ uri, customRef, onMessage, onNavigate }: WebViewProps) {
+export default function WebView({
+  uri,
+  customRef,
+  onMessage,
+  onNavigate,
+  onLoadEnd,
+}: WebViewProps) {
   const [isError, setIsError] = useState(false);
   // eslint-disable-next-line react-hooks/rules-of-hooks
-
   const webViewRef = useRef<RnWebView>();
   const fadeAnimationRef = useRef(new Animated.Value(0));
 
@@ -107,6 +113,7 @@ export default function WebView({ uri, customRef, onMessage, onNavigate }: WebVi
         onError={() => {
           setIsError(true);
         }}
+        onLoadEnd={onLoadEnd}
         onNavigationStateChange={handleNavigate}
         onShouldStartLoadWithRequest={handleNavigate}
         style={{

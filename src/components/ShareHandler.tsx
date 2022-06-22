@@ -5,7 +5,7 @@ import { WebView as RnWebView, WebViewMessageEvent, WebViewNavigation } from 're
 import URL from 'url-parse';
 
 import WebView from '~/components/WebView';
-import { BASE_URI } from '~/constants/uri';
+import { BASE_URI } from '~/constants/common';
 import theme from '~/styles/theme';
 
 const CONTENT_TYPE = {
@@ -38,9 +38,11 @@ interface Props {
   data: string;
   mimeType: string;
   handleClose?: () => void;
+  onMessage?: (event: WebViewMessageEvent) => void;
+  onLoadEnd?: () => void;
 }
 
-export const ShareHandler = ({ data, mimeType, handleClose }: Props) => {
+export const ShareHandler = ({ data, mimeType, handleClose, onMessage, onLoadEnd }: Props) => {
   const webViewRef = useRef<RnWebView>();
 
   // share
@@ -86,6 +88,9 @@ export const ShareHandler = ({ data, mimeType, handleClose }: Props) => {
   };
 
   const onReceiveMessage = (event: WebViewMessageEvent) => {
+    if (onMessage) {
+      onMessage(event);
+    }
     const data = JSON.parse(event.nativeEvent.data);
     if (data.type !== SHARE_WEB_MESSAGE_STATE || data.data !== 'READY') return;
     sendDataToWebView();
@@ -123,6 +128,7 @@ export const ShareHandler = ({ data, mimeType, handleClose }: Props) => {
         }}
         onMessage={onReceiveMessage}
         onNavigate={handleNavigateChange}
+        onLoadEnd={onLoadEnd}
       />
     </View>
   );
