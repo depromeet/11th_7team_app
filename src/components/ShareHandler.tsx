@@ -5,7 +5,8 @@ import { WebView as RnWebView, WebViewMessageEvent, WebViewNavigation } from 're
 import URL from 'url-parse';
 
 import WebView from '~/components/WebView';
-import { BASE_URI } from '~/constants/common';
+import { BASE_URI, SYNC_YGT_RT } from '~/constants/common';
+import { useShareWebToken } from '~/hooks/useShareWebToken';
 import theme from '~/styles/theme';
 
 const CONTENT_TYPE = {
@@ -50,6 +51,8 @@ export const ShareHandler = ({ data, mimeType, handleClose, onMessage, onLoadEnd
   const [sharedData, setSharedData] = useState<string | ArrayBuffer>();
   const [sharedMimeType, setSharedMimeType] = useState<string | ArrayBuffer>();
 
+  const { makeInjectedJavaScript, setRefreshToken } = useShareWebToken();
+
   const handleNavigateChange = (event: WebViewNavigation) => {
     if (
       handleClose &&
@@ -60,6 +63,14 @@ export const ShareHandler = ({ data, mimeType, handleClose, onMessage, onLoadEnd
       handleClose();
     }
     return false;
+  };
+
+  const handleLoadEnd = async () => {
+    if (onLoadEnd) {
+      onLoadEnd();
+    }
+    const injectedRefreshJavaScript = await makeInjectedJavaScript();
+    webViewRef?.current?.injectJavaScript(injectedRefreshJavaScript || '');
   };
 
   const sendDataToWebView = () => {
@@ -87,13 +98,21 @@ export const ShareHandler = ({ data, mimeType, handleClose, onMessage, onLoadEnd
     }
   };
 
-  const onReceiveMessage = (event: WebViewMessageEvent) => {
+  const onReceiveMessage = async (event: WebViewMessageEvent) => {
     if (onMessage) {
       onMessage(event);
     }
     const data = JSON.parse(event.nativeEvent.data);
-    if (data.type !== SHARE_WEB_MESSAGE_STATE || data.data !== 'READY') return;
-    sendDataToWebView();
+
+    // ShareWebToken
+    if (data.type === SYNC_YGT_RT) {
+      await setRefreshToken(data.data);
+    }
+
+    // 공유 핸들링
+    if (data.type === SHARE_WEB_MESSAGE_STATE && data.data === 'READY') {
+      sendDataToWebView();
+    }
   };
 
   useEffect(() => {
@@ -128,7 +147,7 @@ export const ShareHandler = ({ data, mimeType, handleClose, onMessage, onLoadEnd
         }}
         onMessage={onReceiveMessage}
         onNavigate={handleNavigateChange}
-        onLoadEnd={onLoadEnd}
+        onLoadEnd={handleLoadEnd}
       />
     </View>
   );
