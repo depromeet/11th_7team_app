@@ -29,7 +29,15 @@ export default function HomeScreen() {
       edges={['right', 'top', 'left']}
       style={{ flex: 1, backgroundColor: theme.color.background }}
     >
-      <WebView uri={BASE_URI} onLoadEnd={handleLoadEnd} onMessage={onReceiveMessage} />
+      <WebView
+        customRef={ref => {
+          if (!ref) return;
+          webViewRef.current = ref;
+        }}
+        uri={BASE_URI}
+        onLoadEnd={handleLoadEnd}
+        onMessage={onReceiveMessage}
+      />
     </SafeAreaView>
   );
 }

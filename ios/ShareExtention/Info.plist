@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>HostAppBundleIdentifier</key>
-	<string>org.reactjs.native.example.ygt-container</string>
+	<string>org.reactjs.native.example.ygt</string>
 	<key>HostAppURLScheme</key>
 	<string>ygtang</string>
 	<key>NSAppTransportSecurity</key>
