@@ -16,7 +16,7 @@
 		7699B88040F8A987B510C191 /* libPods-ygt-ygtTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-ygt-ygtTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		B04B4B97284649BA001EB5ED /* (null) in Resources */ = {isa = PBXBuildFile; };
-		DF1C9253284F76F40098EF34 /* Bridging-Header.h in Sources */ = {isa = PBXBuildFile; fileRef = DF1C9252284F76F40098EF34 /* Bridging-Header.h */; };
+		DF1C9253284F76F40098EF34 /* ShareExtention-Bridging-Header.h in Sources */ = {isa = PBXBuildFile; fileRef = DF1C9252284F76F40098EF34 /* ShareExtention-Bridging-Header.h */; };
 		DF1C9259284F78030098EF34 /* ReactShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF1C9258284F78030098EF34 /* ReactShareViewController.swift */; };
 		DF869827284E63AB00007C9F /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DF869825284E63AB00007C9F /* MainInterface.storyboard */; };
 		DF86982B284E63AB00007C9F /* ShareExtention.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = DF869821284E63AB00007C9F /* ShareExtention.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -75,12 +75,11 @@
 		89C6BE57DB24E9ADA2F236DE /* Pods-ygt-ygtTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ygt-ygtTests.release.xcconfig"; path = "Target Support Files/Pods-ygt-ygtTests/Pods-ygt-ygtTests.release.xcconfig"; sourceTree = "<group>"; };
 		A8A6AF35BFB35976ED856A5A /* Pods-ShareExtention.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShareExtention.debug.xcconfig"; path = "Target Support Files/Pods-ShareExtention/Pods-ShareExtention.debug.xcconfig"; sourceTree = "<group>"; };
 		B03FCED5284657D1007DC76D /* ygtRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = ygtRelease.entitlements; path = ygt/ygtRelease.entitlements; sourceTree = "<group>"; };
-		DF1C9252284F76F40098EF34 /* Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
+		DF1C9252284F76F40098EF34 /* ShareExtention-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ShareExtention-Bridging-Header.h"; sourceTree = "<group>"; };
 		DF1C9258284F78030098EF34 /* ReactShareViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReactShareViewController.swift; path = "../../node_modules/react-native-share-menu/ios/ReactShareViewController.swift"; sourceTree = "<group>"; };
 		DF869821284E63AB00007C9F /* ShareExtention.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ShareExtention.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		DF869826284E63AB00007C9F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		DF869828284E63AB00007C9F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		DF86982F284E649200007C9F /* ShareExtention-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ShareExtention-Bridging-Header.h"; sourceTree = "<group>"; };
 		DF869830284E649200007C9F /* ShareViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShareViewController.swift; path = "../../node_modules/react-native-share-menu/ios/ShareViewController.swift"; sourceTree = "<group>"; };
 		DF869832284E65FE00007C9F /* ygt.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = ygt.entitlements; path = ygt/ygt.entitlements; sourceTree = "<group>"; };
 		DF869833284E66B800007C9F /* ShareExtention.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ShareExtention.entitlements; sourceTree = "<group>"; };
@@ -212,8 +211,7 @@
 				DF869830284E649200007C9F /* ShareViewController.swift */,
 				DF869825284E63AB00007C9F /* MainInterface.storyboard */,
 				DF869828284E63AB00007C9F /* Info.plist */,
-				DF86982F284E649200007C9F /* ShareExtention-Bridging-Header.h */,
-				DF1C9252284F76F40098EF34 /* Bridging-Header.h */,
+				DF1C9252284F76F40098EF34 /* ShareExtention-Bridging-Header.h */,
 			);
 			path = ShareExtention;
 			sourceTree = "<group>";
@@ -548,7 +546,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DF1C9259284F78030098EF34 /* ReactShareViewController.swift in Sources */,
-				DF1C9253284F76F40098EF34 /* Bridging-Header.h in Sources */,
+				DF1C9253284F76F40098EF34 /* ShareExtention-Bridging-Header.h in Sources */,
 				DF869831284E649200007C9F /* ShareViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -852,7 +850,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.0.3;
+				MARKETING_VERSION = 1.1.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.example.ygt.share;
@@ -897,7 +895,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.0.3;
+				MARKETING_VERSION = 1.1.0;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.example.ygt.share;
 				PRODUCT_NAME = "$(TARGET_NAME)";
