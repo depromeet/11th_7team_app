@@ -26,21 +26,19 @@ target 'ygt' do
       end
     end
   end
-  
+
+  pod 'RNShareMenu', :path => '../node_modules/react-native-share-menu'
   pod 'react-native-webview', :path => '../node_modules/react-native-webview'
+  pod 'RNReactNativeSharedGroupPreferences', :path => '../node_modules/react-native-shared-group-preferences'
 
   target 'ygtTests' do
     inherit! :complete
     # Pods for testing
   end
+
+  target 'ShareExtention' do
+    use_native_modules!
+    inherit! :complete
+  end
   
-end
-
-target 'ShareExtention' do
-  use_react_native!
-
-  pod 'RNShareMenu', :path => '../node_modules/react-native-share-menu'
-  pod 'react-native-webview', :path => '../node_modules/react-native-webview'
-  pod 'RNReactNativeSharedGroupPreferences', :path => '../node_modules/react-native-shared-group-preferences'
-  # Manually link packages here to keep your extension bundle size minimal
 end
