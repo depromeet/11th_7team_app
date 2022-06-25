@@ -3,6 +3,8 @@ import { Animated, BackHandler, Linking, Platform } from 'react-native';
 import { WebView as RnWebView, WebViewMessageEvent, WebViewNavigation } from 'react-native-webview';
 
 import { Error } from '~/components/Error';
+import { SYNC_YGT_RT } from '~/constants/common';
+import { useShareWebToken } from '~/hooks/useShareWebToken';
 import theme from '~/styles/theme';
 
 interface WebViewProps {
@@ -14,13 +16,7 @@ interface WebViewProps {
   onLoadEnd?: () => void;
 }
 
-export default function WebView({
-  uri,
-  customRef,
-  onMessage,
-  onNavigate,
-  onLoadEnd,
-}: WebViewProps) {
+export default function WebView({ uri, customRef, onNavigate }: WebViewProps) {
   const [isError, setIsError] = useState(false);
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const webViewRef = useRef<RnWebView>();
@@ -76,6 +72,21 @@ export default function WebView({
     }
   }, [handleBackButtonPress]);
 
+  const { makeInjectedJavaScript, setRefreshToken } = useShareWebToken();
+
+  const handleLoadEnd = async () => {
+    const injectedRefreshJavaScript = await makeInjectedJavaScript();
+    webViewRef?.current?.injectJavaScript(injectedRefreshJavaScript || '');
+  };
+
+  const onReciveMessage = async (event: WebViewMessageEvent) => {
+    const data = JSON.parse(event.nativeEvent.data);
+
+    if (data.type === SYNC_YGT_RT) {
+      await setRefreshToken(data.data);
+    }
+  };
+
   if (isError) {
     return (
       <Error
@@ -113,13 +124,13 @@ export default function WebView({
         onError={() => {
           setIsError(true);
         }}
-        onLoadEnd={onLoadEnd}
+        onLoadEnd={handleLoadEnd}
         onNavigationStateChange={handleNavigate}
         onShouldStartLoadWithRequest={handleNavigate}
         style={{
           backgroundColor: theme.color.background,
         }}
-        onMessage={onMessage}
+        onMessage={onReciveMessage}
       />
     </Animated.View>
   );
