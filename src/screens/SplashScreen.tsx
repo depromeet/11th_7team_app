@@ -3,6 +3,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import LottieView from 'lottie-react-native';
 import { StyleSheet, View } from 'react-native';
 
+import { YgtStatusBar } from '~/components/YgtStatusBar';
 import { MainNavigatorParamsType } from '~/navigation/MainNavigator';
 import theme from '~/styles/theme';
 
@@ -17,6 +18,7 @@ export default function SplashScreen({ navigation: { replace } }: SplashScreenPr
 
   return (
     <View style={styles.root}>
+      <YgtStatusBar bgColor={theme.color.gray02} />
       <LottieView
         source={require('../assets/ygt-splash.json')}
         autoPlay
