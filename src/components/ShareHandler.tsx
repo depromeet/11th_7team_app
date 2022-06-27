@@ -143,10 +143,7 @@ export const ShareHandler = ({ data, mimeType, handleClose, onMessage, onLoadEnd
     <View style={{ flex: 1, backgroundColor: theme.color.background }}>
       <WebView
         uri={getAddContentURI()}
-        customRef={ref => {
-          if (!ref) return;
-          webViewRef.current = ref;
-        }}
+        customRef={webViewRef}
         onMessage={onReceiveMessage}
         onNavigate={handleNavigateChange}
         onLoadEnd={handleLoadEnd}

@@ -30,10 +30,7 @@ export default function HomeScreen() {
       style={{ flex: 1, backgroundColor: theme.color.background }}
     >
       <WebView
-        customRef={ref => {
-          if (!ref) return;
-          webViewRef.current = ref;
-        }}
+        customRef={webViewRef}
         uri={BASE_URI}
         onLoadEnd={handleLoadEnd}
         onMessage={onReceiveMessage}

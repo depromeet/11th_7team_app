@@ -8,7 +8,7 @@ import theme from '~/styles/theme';
 interface WebViewProps {
   uri: string;
   // eslint-disable-next-line @typescript-eslint/ban-types
-  customRef?: (ref: any) => void | undefined;
+  customRef?: React.MutableRefObject<RnWebView<{}> | undefined>;
   onMessage?: (event: WebViewMessageEvent) => void;
   onNavigate?: (event: WebViewNavigation) => boolean;
   onLoadEnd?: () => void;
@@ -23,7 +23,7 @@ export default function WebView({
 }: WebViewProps) {
   const [isError, setIsError] = useState(false);
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const webViewRef = useRef<RnWebView>();
+  const webViewRef = customRef ?? useRef<RnWebView>();
   const fadeAnimationRef = useRef(new Animated.Value(0));
 
   const animationConfig: Animated.TimingAnimationConfig = useMemo(() => {
@@ -97,14 +97,10 @@ export default function WebView({
       }}
     >
       <RnWebView
-        ref={
-          customRef
-            ? customRef
-            : ref => {
-                if (!ref) return;
-                webViewRef.current = ref;
-              }
-        }
+        ref={ref => {
+          if (!ref) return;
+          webViewRef.current = ref;
+        }}
         source={{ uri }}
         bounces={false}
         applicationNameForUserAgent={'YgtangApp/1.0'}
