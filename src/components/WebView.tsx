@@ -10,13 +10,13 @@ import theme from '~/styles/theme';
 interface WebViewProps {
   uri: string;
   // eslint-disable-next-line @typescript-eslint/ban-types
-  customRef?: (ref: any) => void | undefined;
+  customRef?: React.MutableRefObject<RnWebView<{}> | undefined>;
   onMessage?: (event: WebViewMessageEvent) => void;
   onNavigate?: (event: WebViewNavigation) => boolean;
   onLoadEnd?: () => void;
 }
 
-export default function WebView({ uri, customRef, onNavigate }: WebViewProps) {
+export default function WebView({ uri, customRef, onNavigate, onMessage }: WebViewProps) {
   const [isError, setIsError] = useState(false);
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const webViewRef = useRef<RnWebView>();
@@ -56,12 +56,17 @@ export default function WebView({ uri, customRef, onNavigate }: WebViewProps) {
 
   const handleBackButtonPress = useCallback(() => {
     try {
-      webViewRef.current?.goBack();
+      if (customRef) {
+        customRef.current?.goBack();
+      } else {
+        webViewRef.current?.goBack();
+      }
+
       return true;
     } catch (err) {
       console.log('[handleBackButtonPress] Error : ', err);
     }
-  }, [webViewRef]);
+  }, [webViewRef, customRef]);
 
   useEffect(() => {
     if (Platform.OS === 'android') {
@@ -79,7 +84,11 @@ export default function WebView({ uri, customRef, onNavigate }: WebViewProps) {
     webViewRef?.current?.injectJavaScript(injectedRefreshJavaScript || '');
   };
 
-  const onReciveMessage = async (event: WebViewMessageEvent) => {
+  const onReceiveMessage = async (event: WebViewMessageEvent) => {
+    if (onMessage) {
+      onMessage(event);
+    }
+
     const data = JSON.parse(event.nativeEvent.data);
 
     if (data.type === SYNC_YGT_RT) {
@@ -92,7 +101,7 @@ export default function WebView({ uri, customRef, onNavigate }: WebViewProps) {
       <Error
         reload={() => {
           setIsError(false);
-          webViewRef.current?.reload();
+          customRef ? customRef.current?.reload() : webViewRef.current?.reload();
         }}
       />
     );
@@ -108,14 +117,10 @@ export default function WebView({ uri, customRef, onNavigate }: WebViewProps) {
       }}
     >
       <RnWebView
-        ref={
-          customRef
-            ? customRef
-            : ref => {
-                if (!ref) return;
-                webViewRef.current = ref;
-              }
-        }
+        ref={ref => {
+          if (!ref) return;
+          customRef ? (customRef.current = ref) : (webViewRef.current = ref);
+        }}
         source={{ uri }}
         bounces={false}
         applicationNameForUserAgent={'YgtangApp/1.0'}
@@ -130,7 +135,7 @@ export default function WebView({ uri, customRef, onNavigate }: WebViewProps) {
         style={{
           backgroundColor: theme.color.background,
         }}
-        onMessage={onReciveMessage}
+        onMessage={onReceiveMessage}
       />
     </Animated.View>
   );
