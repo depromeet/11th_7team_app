@@ -7,6 +7,7 @@ import theme from '~/styles/theme';
 
 interface WebViewProps {
   uri: string;
+  // eslint-disable-next-line @typescript-eslint/ban-types
   customRef?: React.MutableRefObject<RnWebView<{}> | undefined>;
   onMessage?: (event: WebViewMessageEvent) => void;
   onNavigate?: (event: WebViewNavigation) => boolean;
