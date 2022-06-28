@@ -3,6 +3,7 @@ import { Animated, BackHandler, Linking, Platform } from 'react-native';
 import { WebView as RnWebView, WebViewMessageEvent, WebViewNavigation } from 'react-native-webview';
 
 import { Error } from '~/components/Error';
+import { useWebViewNavigateWrapping } from '~/hooks/useWebViewNavigateWrapping';
 import theme from '~/styles/theme';
 
 interface WebViewProps {
@@ -22,6 +23,12 @@ export default function WebView({
   onLoadEnd,
 }: WebViewProps) {
   const [isError, setIsError] = useState(false);
+  const {
+    canGoBack,
+    injectCode,
+    handleMessage: handleNavigateMessage,
+  } = useWebViewNavigateWrapping();
+
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const webViewRef = customRef ?? useRef<RnWebView>();
   const fadeAnimationRef = useRef(new Animated.Value(0));
@@ -58,14 +65,24 @@ export default function WebView({
     return handleExternalLinks(event);
   };
 
+  const handleMessage = (event: WebViewMessageEvent) => {
+    if (onMessage) {
+      onMessage(event);
+    }
+    handleNavigateMessage(event);
+  };
+
   const handleBackButtonPress = useCallback(() => {
     try {
-      webViewRef.current?.goBack();
-      return true;
+      if (canGoBack) {
+        webViewRef.current?.goBack();
+        return true;
+      }
+      return false;
     } catch (err) {
       console.log('[handleBackButtonPress] Error : ', err);
     }
-  }, [webViewRef]);
+  }, [canGoBack, webViewRef]);
 
   useEffect(() => {
     if (Platform.OS === 'android') {
@@ -109,13 +126,14 @@ export default function WebView({
         onError={() => {
           setIsError(true);
         }}
+        onLoadStart={() => webViewRef.current?.injectJavaScript(injectCode)}
         onLoadEnd={onLoadEnd}
         onNavigationStateChange={handleNavigate}
         onShouldStartLoadWithRequest={handleNavigate}
         style={{
           backgroundColor: theme.color.background,
         }}
-        onMessage={onMessage}
+        onMessage={handleMessage}
       />
     </Animated.View>
   );
