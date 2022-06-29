@@ -3,16 +3,25 @@ import { WebViewMessageEvent } from 'react-native-webview';
 
 export function useWebViewNavigateWrapping() {
   const [canGoBack, setCanGoBack] = useState(false);
+  const [isAddPage, setIsAddPage] = useState(true);
 
   const handleMessage = ({ nativeEvent }: WebViewMessageEvent) => {
     if (nativeEvent.data === 'navigationStateChange') {
       setCanGoBack(nativeEvent.canGoBack);
+
+      // share 페이지 여부 구분
+      if (nativeEvent.url.includes('/add/')) {
+        setIsAddPage(true);
+      } else {
+        setIsAddPage(false);
+      }
     }
   };
 
   return {
     canGoBack,
     setCanGoBack,
+    isAddPage,
     injectCode: WebViewInjectCode,
     handleMessage,
   };

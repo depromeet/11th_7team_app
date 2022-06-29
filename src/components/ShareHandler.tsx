@@ -5,8 +5,9 @@ import { WebView as RnWebView, WebViewMessageEvent, WebViewNavigation } from 're
 import URL from 'url-parse';
 
 import WebView from '~/components/WebView';
-import { BASE_URI, SYNC_YGT_RT } from '~/constants/common';
+import { BASE_URI, SYNC_YGT_RT, WEBVIEW_MESSAGE_TYPE } from '~/constants/common';
 import { useShareWebToken } from '~/hooks/useShareWebToken';
+import { useWebViewNavigateWrapping } from '~/hooks/useWebViewNavigateWrapping';
 import theme from '~/styles/theme';
 
 const CONTENT_TYPE = {
@@ -52,6 +53,7 @@ export const ShareHandler = ({ data, mimeType, handleClose, onMessage, onLoadEnd
   const [sharedMimeType, setSharedMimeType] = useState<string | ArrayBuffer>();
 
   const { makeInjectedJavaScript, setRefreshToken } = useShareWebToken();
+  const { isAddPage } = useWebViewNavigateWrapping();
 
   const handleNavigateChange = (event: WebViewNavigation) => {
     if (
@@ -115,6 +117,18 @@ export const ShareHandler = ({ data, mimeType, handleClose, onMessage, onLoadEnd
     if (data.type === SHARE_WEB_MESSAGE_STATE && data.data === 'READY') {
       sendDataToWebView();
     }
+
+    console.log(data);
+
+    // Android Share 닫기 핸들링
+    if (
+      Platform.OS === 'android' &&
+      handleClose &&
+      (data.type === WEBVIEW_MESSAGE_TYPE.CreatedInspiration ||
+        data.type === WEBVIEW_MESSAGE_TYPE.ClosedInspiration)
+    ) {
+      handleClose();
+    }
   };
 
   useEffect(() => {
@@ -138,6 +152,12 @@ export const ShareHandler = ({ data, mimeType, handleClose, onMessage, onLoadEnd
       }
     }
   }, [data, mimeType]);
+
+  useEffect(() => {
+    if (Platform.OS === 'android' && !isAddPage) {
+      handleClose && handleClose();
+    }
+  }, [handleClose, isAddPage]);
 
   return (
     <View style={{ flex: 1, backgroundColor: theme.color.background }}>
