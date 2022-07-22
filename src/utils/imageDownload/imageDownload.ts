@@ -1,6 +1,7 @@
 import Cameraroll from '@react-native-community/cameraroll';
 import { PermissionsAndroid, Platform } from 'react-native';
 import { WebViewNavigation } from 'react-native-webview';
+import RNFetchBlob from 'rn-fetch-blob';
 
 async function hasAndroidPermission() {
   const permission = PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE;
@@ -27,6 +28,13 @@ export async function imageDownload(event: WebViewNavigation) {
     return;
   }
 
-  console.log('image download');
+  if (Platform.OS === 'android') {
+    RNFetchBlob.config({
+      fileCache: true,
+      addAndroidDownloads: { useDownloadManager: true, notification: true },
+    }).fetch('GET', event.url);
+    return;
+  }
+
   Cameraroll.save(event.url);
 }

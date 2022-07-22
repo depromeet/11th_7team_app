@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Animated, BackHandler, Linking, Platform } from 'react-native';
+import { Animated, BackHandler, Linking, LogBox, Platform } from 'react-native';
 import { WebView as RnWebView, WebViewMessageEvent, WebViewNavigation } from 'react-native-webview';
 
 import { Error } from '~/components/Error';
@@ -7,6 +7,8 @@ import { AWS_S3_IMG_BUCKET_URI } from '~/constants/common';
 import { useWebViewNavigateWrapping } from '~/hooks/useWebViewNavigateWrapping';
 import theme from '~/styles/theme';
 import { imageDownload } from '~/utils/imageDownload';
+
+LogBox.ignoreLogs(['new NativeEventEmitter']);
 
 interface WebViewProps {
   uri: string;
@@ -61,14 +63,14 @@ export default function WebView({
   };
 
   const handleNavigate = (event: WebViewNavigation) => {
-    if (onNavigate && onNavigate(event)) {
-      return true;
-    }
-
     // NOTE: 이미지 저장 클릭 시
     if (event.url.startsWith(AWS_S3_IMG_BUCKET_URI)) {
       imageDownload(event);
       return false;
+    }
+
+    if (onNavigate && onNavigate(event)) {
+      return true;
     }
 
     return handleExternalLinks(event);
