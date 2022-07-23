@@ -143,10 +143,6 @@ export default function WebView({
           backgroundColor: theme.color.background,
         }}
         onMessage={handleMessage}
-        onFileDownload={e => {
-          console.log('file download');
-          console.log(e);
-        }}
         allowFileAccess
         allowFileAccessFromFileURLs
         allowUniversalAccessFromFileURLs
