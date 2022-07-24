@@ -65,3 +65,6 @@ buck-out/
 
 # Vscode
 .vscode/
+
+# secret
+/android/app/google-services.json
