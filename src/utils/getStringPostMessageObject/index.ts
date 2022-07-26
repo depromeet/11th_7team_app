@@ -1,1 +1,1 @@
-export { getStringPostMessageObject } from './getStringPostMEssageObject';
+export { getStringPostMessageObject } from './getStringPostMessageObject';
