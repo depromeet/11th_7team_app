@@ -1,7 +1,9 @@
 import { WEBVIEW_MESSAGE_TYPE } from '~/constants/common';
 
+type WebviewMessageTypeKey = keyof typeof WEBVIEW_MESSAGE_TYPE;
+
 interface PostMessageObjectInterface {
-  type: keyof typeof WEBVIEW_MESSAGE_TYPE;
+  type: typeof WEBVIEW_MESSAGE_TYPE[WebviewMessageTypeKey];
   data: unknown;
   [key: string]: unknown;
 }
