@@ -41,7 +41,7 @@ export async function imageDownload(
 ) {
   if (Platform.OS === 'android' && !(await hasAndroidPermission())) {
     const stringMessageObject = getStringPostMessageObject({
-      type: WEBVIEW_MESSAGE_TYPE.SendToastMessage,
+      type: WEBVIEW_MESSAGE_TYPE.SEND_TOAST_MESSAGE,
       data: PERMISSON_DENIED_IMAGE_DOWNLOAD_MESSAGE,
     });
 
@@ -57,14 +57,14 @@ export async function imageDownload(
       .fetch('GET', event.url)
       .then(() => {
         const stringMessageObject = getStringPostMessageObject({
-          type: WEBVIEW_MESSAGE_TYPE.SendToastMessage,
+          type: WEBVIEW_MESSAGE_TYPE.SEND_TOAST_MESSAGE,
           data: SUCCESS_IMAGE_DOWNLOAD_MESSAGE,
         });
         webViewRef.current?.postMessage(stringMessageObject);
       })
       .catch(() => {
         const stringMessageObject = getStringPostMessageObject({
-          type: WEBVIEW_MESSAGE_TYPE.SendToastMessage,
+          type: WEBVIEW_MESSAGE_TYPE.SEND_TOAST_MESSAGE,
           data: FAILED_IMAGE_DOWNLOAD_MESSAGE,
         });
         webViewRef.current?.postMessage(stringMessageObject);
@@ -75,14 +75,14 @@ export async function imageDownload(
   Cameraroll.save(event.url)
     .then(() => {
       const stringMessageObject = getStringPostMessageObject({
-        type: WEBVIEW_MESSAGE_TYPE.SendToastMessage,
+        type: WEBVIEW_MESSAGE_TYPE.SEND_TOAST_MESSAGE,
         data: SUCCESS_IMAGE_DOWNLOAD_MESSAGE,
       });
       webViewRef.current?.postMessage(stringMessageObject);
     })
     .catch(() => {
       const stringMessageObject = getStringPostMessageObject({
-        type: WEBVIEW_MESSAGE_TYPE.SendToastMessage,
+        type: WEBVIEW_MESSAGE_TYPE.SEND_TOAST_MESSAGE,
         data: FAILED_IMAGE_DOWNLOAD_MESSAGE,
       });
       webViewRef.current?.postMessage(stringMessageObject);
