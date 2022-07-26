@@ -63,7 +63,7 @@ export default function WebView({
   const handleNavigate = (event: WebViewNavigation) => {
     // NOTE: 이미지 저장 클릭 시
     if (event.url.startsWith(AWS_S3_IMG_BUCKET_URI)) {
-      imageDownload(event);
+      imageDownload(event, webViewRef);
       return false;
     }
 
