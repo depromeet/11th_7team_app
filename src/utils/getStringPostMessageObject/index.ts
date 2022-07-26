@@ -1,0 +1,1 @@
+export { getStringPostMessageObject } from './getStringPostMEssageObject';
