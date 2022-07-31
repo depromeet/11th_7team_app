@@ -8,12 +8,13 @@ import { Error } from '~/components/Error';
 import { YgtStatusBar } from '~/components/YgtStatusBar';
 import {
   BASE_URI,
-  SHARE_EXTENTION_MESSAGE_TYPE,
   SHARE_WEB_MESSAGE_STATE,
   SYNC_YGT_RT,
+  WEBVIEW_MESSAGE_TYPE,
 } from '~/constants/common';
 import { useShareWebToken } from '~/hooks/useShareWebToken';
 import theme from '~/styles/theme';
+import { getStringPostMessageObject } from '~/utils/getStringPostMessageObject';
 
 const CONTENT_TYPE = {
   IMAGE: 'IMAGE',
@@ -78,9 +79,10 @@ const Share = () => {
 
   const sendDataToWebView = () => {
     if (!webViewRef?.current) return;
+
     webViewRef.current.postMessage(
-      JSON.stringify({
-        type: SHARE_EXTENTION_MESSAGE_TYPE,
+      getStringPostMessageObject({
+        type: WEBVIEW_MESSAGE_TYPE.SHARE_EXTENTION_MESSAGE_TYPE,
         data: sharedData,
         mimeType: sharedMimeType,
       })

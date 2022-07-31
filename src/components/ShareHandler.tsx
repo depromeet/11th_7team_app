@@ -9,6 +9,7 @@ import { BASE_URI, SYNC_YGT_RT, WEBVIEW_MESSAGE_TYPE } from '~/constants/common'
 import { useShareWebToken } from '~/hooks/useShareWebToken';
 import { useWebViewNavigateWrapping } from '~/hooks/useWebViewNavigateWrapping';
 import theme from '~/styles/theme';
+import { getStringPostMessageObject } from '~/utils/getStringPostMessageObject';
 
 const CONTENT_TYPE = {
   IMAGE: 'IMAGE',
@@ -16,7 +17,6 @@ const CONTENT_TYPE = {
   LINK: 'LINK',
 } as const;
 
-const SHARE_EXTENTION_MESSAGE_TYPE = 'YgtangAppShareData';
 const SHARE_WEB_MESSAGE_STATE = 'YgtangWebShareState';
 
 async function urlTo64File(url: string): Promise<string | ArrayBuffer> {
@@ -81,8 +81,8 @@ export const ShareHandler = ({ data, mimeType, handleClose, onMessage, onLoadEnd
     if (!webViewRef?.current) return;
 
     webViewRef.current.postMessage(
-      JSON.stringify({
-        type: SHARE_EXTENTION_MESSAGE_TYPE,
+      getStringPostMessageObject({
+        type: WEBVIEW_MESSAGE_TYPE.SHARE_EXTENTION_MESSAGE_TYPE,
         data: sharedData,
         mimeType: sharedMimeType,
       })
@@ -124,8 +124,8 @@ export const ShareHandler = ({ data, mimeType, handleClose, onMessage, onLoadEnd
     if (
       Platform.OS === 'android' &&
       handleClose &&
-      (data.type === WEBVIEW_MESSAGE_TYPE.CreatedInspiration ||
-        data.type === WEBVIEW_MESSAGE_TYPE.ClosedInspiration)
+      (data.type === WEBVIEW_MESSAGE_TYPE.CREATED_INSPIRATION ||
+        data.type === WEBVIEW_MESSAGE_TYPE.CLOSED_INSPIRATION)
     ) {
       handleClose();
     }
