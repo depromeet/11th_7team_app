@@ -3,8 +3,11 @@ require_relative '../node_modules/@react-native-community/cli-platform-ios/nativ
 
 platform :ios, '12.4'
 install! 'cocoapods', :deterministic_uuids => false
+# $RNFirebaseAsStaticFramework = true
 
 target 'ygt' do
+  # use_frameworks! :linkage => :static
+
   config = use_native_modules!
 
   # Flags change depending on the env values.
@@ -27,9 +30,16 @@ target 'ygt' do
     end
   end
 
+
   pod 'RNShareMenu', :path => '../node_modules/react-native-share-menu'
   pod 'react-native-webview', :path => '../node_modules/react-native-webview'
   pod 'RNReactNativeSharedGroupPreferences', :path => '../node_modules/react-native-shared-group-preferences'
+
+  pod 'Firebase', :modular_headers => true
+  pod 'FirebaseCore', :modular_headers => true
+  pod 'GoogleUtilities', :modular_headers => true
+  # 와..위의부분을 pod install을 꼭 package-firebase-sdk받기전에 해야된다....
+  
 
   target 'ygtTests' do
     inherit! :complete
