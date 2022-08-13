@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import Clipboard from '@react-native-clipboard/clipboard';
 import { StyleSheet, View } from 'react-native';
 import ShareMenu from 'react-native-share-menu';
 
@@ -13,6 +14,18 @@ export default function App() {
   const [shareMenu, setShareMenu] = useState(false);
   const [shareData, setShareData] = useState<string | null>(null);
   const [shareMimeType, setShareMimeType] = useState<string | null>(null);
+  const [copiedText, setCopiedText] = useState('');
+
+  const fetchCopiedText = async () => {
+    const text = await Clipboard.getString();
+    setCopiedText(text);
+  };
+
+  useEffect(() => {
+    fetchCopiedText();
+  }, []);
+
+  console.log(copiedText);
 
   const handleShare = useCallback(item => {
     if (!item) {
