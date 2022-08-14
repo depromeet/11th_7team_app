@@ -10,4 +10,5 @@ export const WEBVIEW_MESSAGE_TYPE = {
   CLOSED_INSPIRATION: 'ClosedInspiration',
   SEND_TOAST_MESSAGE: 'SendToastMessage',
   SHARE_EXTENTION_MESSAGE_TYPE: 'YgtangAppShareData',
+  CLIPBOARD_INSPIRATION: 'ClipboardInspiration',
 } as const;

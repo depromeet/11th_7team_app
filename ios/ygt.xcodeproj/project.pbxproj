@@ -66,7 +66,6 @@
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = ygt/main.m; sourceTree = "<group>"; };
 		151CE04376E19AA3569301DA /* Pods-ygt-ShareExtention.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ygt-ShareExtention.release.xcconfig"; path = "Target Support Files/Pods-ygt-ShareExtention/Pods-ygt-ShareExtention.release.xcconfig"; sourceTree = "<group>"; };
 		19F6CBCC0A4E27FBF8BF4A61 /* libPods-ygt-ygtTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ygt-ygtTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		1DA220F0B3FCC853C0A2CFFB /* Pods-ShareExtention.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShareExtention.release.xcconfig"; path = "Target Support Files/Pods-ShareExtention/Pods-ShareExtention.release.xcconfig"; sourceTree = "<group>"; };
 		3B4392A12AC88292D35C810B /* Pods-ygt.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ygt.debug.xcconfig"; path = "Target Support Files/Pods-ygt/Pods-ygt.debug.xcconfig"; sourceTree = "<group>"; };
 		5709B34CF0A7D63546082F79 /* Pods-ygt.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ygt.release.xcconfig"; path = "Target Support Files/Pods-ygt/Pods-ygt.release.xcconfig"; sourceTree = "<group>"; };
 		5B7EB9410499542E8C5724F5 /* Pods-ygt-ygtTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ygt-ygtTests.debug.xcconfig"; path = "Target Support Files/Pods-ygt-ygtTests/Pods-ygt-ygtTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -74,7 +73,6 @@
 		791E14A732F761646E89AA18 /* Pods-ygt-ShareExtention.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ygt-ShareExtention.debug.xcconfig"; path = "Target Support Files/Pods-ygt-ShareExtention/Pods-ygt-ShareExtention.debug.xcconfig"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = ygt/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-ygt-ygtTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ygt-ygtTests.release.xcconfig"; path = "Target Support Files/Pods-ygt-ygtTests/Pods-ygt-ygtTests.release.xcconfig"; sourceTree = "<group>"; };
-		A8A6AF35BFB35976ED856A5A /* Pods-ShareExtention.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShareExtention.debug.xcconfig"; path = "Target Support Files/Pods-ShareExtention/Pods-ShareExtention.debug.xcconfig"; sourceTree = "<group>"; };
 		B03FCED5284657D1007DC76D /* ygtRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = ygtRelease.entitlements; path = ygt/ygtRelease.entitlements; sourceTree = "<group>"; };
 		DF1C9252284F76F40098EF34 /* Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
 		DF1C9258284F78030098EF34 /* ReactShareViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReactShareViewController.swift; path = "../../node_modules/react-native-share-menu/ios/ReactShareViewController.swift"; sourceTree = "<group>"; };
@@ -200,8 +198,6 @@
 				5709B34CF0A7D63546082F79 /* Pods-ygt.release.xcconfig */,
 				5B7EB9410499542E8C5724F5 /* Pods-ygt-ygtTests.debug.xcconfig */,
 				89C6BE57DB24E9ADA2F236DE /* Pods-ygt-ygtTests.release.xcconfig */,
-				A8A6AF35BFB35976ED856A5A /* Pods-ShareExtention.debug.xcconfig */,
-				1DA220F0B3FCC853C0A2CFFB /* Pods-ShareExtention.release.xcconfig */,
 				791E14A732F761646E89AA18 /* Pods-ygt-ShareExtention.debug.xcconfig */,
 				151CE04376E19AA3569301DA /* Pods-ygt-ShareExtention.release.xcconfig */,
 			);
