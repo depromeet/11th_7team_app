@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import Clipboard from '@react-native-clipboard/clipboard';
+import { AppState } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { WebView as RnWebView, WebViewMessageEvent } from 'react-native-webview';
 
@@ -10,14 +11,11 @@ import theme from '~/styles/theme';
 import { getStringPostMessageObject } from '~/utils/getStringPostMessageObject';
 
 export default function HomeScreen() {
+  const appState = useRef(AppState.currentState);
+  const [appStateVisible, setAppStateVisible] = useState(appState.current);
   const [clipboardData, setClipboardData] = useState<string | null>(null);
   const webViewRef = useRef<RnWebView>();
   const { makeInjectedJavaScript, setRefreshToken } = useShareWebToken();
-
-  const handleLoadEnd = async () => {
-    const injectedRefreshJavaScript = await makeInjectedJavaScript();
-    webViewRef?.current?.injectJavaScript(injectedRefreshJavaScript || '');
-  };
 
   const sendClipboardDataToWebView = useCallback(() => {
     if (!webViewRef?.current) return;
@@ -31,10 +29,25 @@ export default function HomeScreen() {
   }, [clipboardData]);
 
   useEffect(() => {
-    if (clipboardData && clipboardData.trim() !== '') {
-      sendClipboardDataToWebView();
-    }
+    const subscription = AppState.addEventListener('change', nextAppState => {
+      appState.current = nextAppState;
+      setAppStateVisible(appState.current);
+      if (appState.current === 'active') {
+        if (clipboardData && clipboardData.trim() !== '') {
+          sendClipboardDataToWebView();
+        }
+      }
+    });
+
+    return () => {
+      subscription.remove();
+    };
   }, [clipboardData, sendClipboardDataToWebView]);
+
+  const handleLoadEnd = async () => {
+    const injectedRefreshJavaScript = await makeInjectedJavaScript();
+    webViewRef?.current?.injectJavaScript(injectedRefreshJavaScript || '');
+  };
 
   const onReceiveMessage = async (event: WebViewMessageEvent) => {
     const data = JSON.parse(event.nativeEvent.data);
@@ -47,13 +60,14 @@ export default function HomeScreen() {
   const fetchCopiedText = async () => {
     const text = await Clipboard.getString();
     if (text.trim() !== '' && text !== null) {
-      setClipboardData(text);
+      return setClipboardData(text);
     }
   };
 
   useEffect(() => {
+    if (!appStateVisible) return;
     fetchCopiedText();
-  }, []);
+  }, [appStateVisible]);
 
   return (
     <SafeAreaView
