@@ -14,6 +14,7 @@ export default function HomeScreen() {
   const appState = useRef(AppState.currentState);
   const [appStateVisible, setAppStateVisible] = useState(appState.current);
   const [clipboardData, setClipboardData] = useState<string | null>(null);
+  const isFirstRender = useRef(true);
   const webViewRef = useRef<RnWebView>();
   const { makeInjectedJavaScript, setRefreshToken } = useShareWebToken();
 
@@ -29,13 +30,21 @@ export default function HomeScreen() {
   }, [clipboardData]);
 
   useEffect(() => {
+    const isClipboardData = clipboardData && clipboardData.trim() !== '';
+
+    if (isClipboardData && isFirstRender.current) {
+      setTimeout(() => {
+        sendClipboardDataToWebView();
+      }, 3500);
+      isFirstRender.current = false;
+    }
+
     const subscription = AppState.addEventListener('change', nextAppState => {
       appState.current = nextAppState;
+      const isAppActivated = appState.current === 'active';
       setAppStateVisible(appState.current);
-      if (appState.current === 'active') {
-        if (clipboardData && clipboardData.trim() !== '') {
-          sendClipboardDataToWebView();
-        }
+      if (isAppActivated && isClipboardData) {
+        sendClipboardDataToWebView();
       }
     });
 
