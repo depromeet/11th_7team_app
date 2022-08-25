@@ -1,57 +1,16 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import Clipboard from '@react-native-clipboard/clipboard';
-import { AppState } from 'react-native';
+import React, { useRef } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { WebView as RnWebView, WebViewMessageEvent } from 'react-native-webview';
 
+import { ClipboardMessenger } from '~/components/ClipboardMessenger';
 import WebView from '~/components/WebView';
-import { BASE_URI, SYNC_YGT_RT, WEBVIEW_MESSAGE_TYPE } from '~/constants/common';
+import { BASE_URI, SYNC_YGT_RT } from '~/constants/common';
 import { useShareWebToken } from '~/hooks/useShareWebToken';
 import theme from '~/styles/theme';
-import { getStringPostMessageObject } from '~/utils/getStringPostMessageObject';
 
 export default function HomeScreen() {
-  const appState = useRef(AppState.currentState);
-  const [appStateVisible, setAppStateVisible] = useState(appState.current);
-  const [clipboardData, setClipboardData] = useState<string | null>(null);
-  const isFirstRender = useRef(true);
   const webViewRef = useRef<RnWebView>();
   const { makeInjectedJavaScript, setRefreshToken } = useShareWebToken();
-
-  const sendClipboardDataToWebView = useCallback(() => {
-    if (!webViewRef?.current) return;
-    if (clipboardData?.trim() === '') return;
-    webViewRef.current.postMessage(
-      getStringPostMessageObject({
-        type: WEBVIEW_MESSAGE_TYPE.CLIPBOARD_INSPIRATION,
-        data: clipboardData,
-      })
-    );
-  }, [clipboardData]);
-
-  useEffect(() => {
-    const isClipboardData = clipboardData && clipboardData.trim() !== '';
-
-    if (isClipboardData && isFirstRender.current) {
-      setTimeout(() => {
-        sendClipboardDataToWebView();
-      }, 3500);
-      isFirstRender.current = false;
-    }
-
-    const subscription = AppState.addEventListener('change', nextAppState => {
-      appState.current = nextAppState;
-      const isAppActivated = appState.current === 'active';
-      setAppStateVisible(appState.current);
-      if (isAppActivated && isClipboardData) {
-        sendClipboardDataToWebView();
-      }
-    });
-
-    return () => {
-      subscription.remove();
-    };
-  }, [clipboardData, sendClipboardDataToWebView]);
 
   const handleLoadEnd = async () => {
     const injectedRefreshJavaScript = await makeInjectedJavaScript();
@@ -66,29 +25,19 @@ export default function HomeScreen() {
     }
   };
 
-  const fetchCopiedText = async () => {
-    const text = await Clipboard.getString();
-    if (text.trim() !== '' && text !== null) {
-      return setClipboardData(text);
-    }
-  };
-
-  useEffect(() => {
-    if (!appStateVisible) return;
-    fetchCopiedText();
-  }, [appStateVisible]);
-
   return (
     <SafeAreaView
       edges={['right', 'top', 'left']}
       style={{ flex: 1, backgroundColor: theme.color.background }}
     >
-      <WebView
-        customRef={webViewRef}
-        uri={BASE_URI}
-        onLoadEnd={handleLoadEnd}
-        onMessage={onReceiveMessage}
-      />
+      <ClipboardMessenger webViewRef={webViewRef}>
+        <WebView
+          customRef={webViewRef}
+          uri={BASE_URI}
+          onLoadEnd={handleLoadEnd}
+          onMessage={onReceiveMessage}
+        />
+      </ClipboardMessenger>
     </SafeAreaView>
   );
 }
