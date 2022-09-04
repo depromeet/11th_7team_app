@@ -13,56 +13,67 @@ export interface ClipboardMessengerProps {
 
 export function ClipboardMessenger({ children, webViewRef }: ClipboardMessengerProps) {
   const appState = useRef(AppState.currentState);
-  const [appStateVisible, setAppStateVisible] = useState(appState.current);
-  const isFirstRender = useRef(true);
+  const [appStateVisible, setAppStateVisible] = useState(true);
   const [clipboardData, setClipboardData] = useState<string | null>(null);
+  const isFirstRender = useRef(true);
 
-  const sendClipboardDataToWebView = useCallback(() => {
-    if (!webViewRef?.current) return;
-    if (clipboardData?.trim() === '') return;
-    webViewRef.current.postMessage(
-      getStringPostMessageObject({
-        type: WEBVIEW_MESSAGE_TYPE.CLIPBOARD_INSPIRATION,
-        data: clipboardData,
-      })
-    );
-  }, [clipboardData, webViewRef]);
+  const sendClipboardDataToWebView = useCallback(
+    data => {
+      if (!webViewRef?.current || clipboardData?.trim() === '') return;
+      webViewRef.current.postMessage(
+        getStringPostMessageObject({
+          type: WEBVIEW_MESSAGE_TYPE.CLIPBOARD_INSPIRATION,
+          data,
+        })
+      );
+    },
+    [clipboardData, webViewRef]
+  );
 
-  const fetchCopiedText = async () => {
+  const fetchCopiedText = useCallback(async () => {
     const text = await Clipboard.getString();
     if (text.trim() !== '' && text !== null) {
-      return setClipboardData(text);
+      setClipboardData(text);
     }
-  };
 
+    if (text) {
+      sendClipboardDataToWebView(text);
+    }
+  }, [sendClipboardDataToWebView]);
+
+  // 앱 실행 시 클립보드 체크
+  useEffect(() => {
+    fetchCopiedText();
+  }, [fetchCopiedText]);
+
+  // 앱 실행 후 splash로 인해 3500ms 지연
   useEffect(() => {
     const isClipboardData = clipboardData && clipboardData.trim() !== '';
-
+    const DELAYED_TIME = 3500;
     if (isClipboardData && isFirstRender.current) {
       setTimeout(() => {
-        sendClipboardDataToWebView();
-      }, 3500);
+        sendClipboardDataToWebView(clipboardData);
+      }, DELAYED_TIME);
       isFirstRender.current = false;
     }
+  }, [clipboardData, appStateVisible, sendClipboardDataToWebView]);
 
+  // 앱 동작 중 appState 변화에 따른 클립보드 체크
+  useEffect(() => {
     const subscription = AppState.addEventListener('change', nextAppState => {
       appState.current = nextAppState;
       const isAppActivated = appState.current === 'active';
-      setAppStateVisible(appState.current);
-      if (isAppActivated && isClipboardData) {
-        sendClipboardDataToWebView();
+
+      setAppStateVisible(isAppActivated);
+      if (isAppActivated) {
+        fetchCopiedText();
       }
     });
 
     return () => {
       subscription.remove();
     };
-  }, [clipboardData, sendClipboardDataToWebView]);
-
-  useEffect(() => {
-    if (!appStateVisible) return;
-    fetchCopiedText();
-  }, [appStateVisible]);
+  }, [fetchCopiedText]);
 
   return <>{children}</>;
 }
