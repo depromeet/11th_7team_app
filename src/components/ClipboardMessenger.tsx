@@ -32,14 +32,13 @@ export function ClipboardMessenger({ children, webViewRef }: ClipboardMessengerP
 
   const fetchCopiedText = useCallback(async () => {
     const text = await Clipboard.getString();
-    if (text.trim() !== '' && text !== null) {
+    const isNotEmptyText = text.trim() !== '' && text !== null;
+    const isNotDuplicatedText = text !== clipboardData;
+    if (isNotDuplicatedText && isNotEmptyText) {
+      sendClipboardDataToWebView(text);
       setClipboardData(text);
     }
-
-    if (text) {
-      sendClipboardDataToWebView(text);
-    }
-  }, [sendClipboardDataToWebView]);
+  }, [sendClipboardDataToWebView, clipboardData]);
 
   // 앱 실행 시 클립보드 체크
   useEffect(() => {
