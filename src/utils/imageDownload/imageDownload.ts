@@ -50,9 +50,13 @@ export async function imageDownload(
   }
 
   if (Platform.OS === 'android') {
+    const { dirs } = RNFetchBlob.fs;
+    const downloadPath = dirs.DownloadDir + '/ygtang' + event.url;
+
     RNFetchBlob.config({
       fileCache: true,
-      addAndroidDownloads: { useDownloadManager: true, notification: true },
+      path: downloadPath,
+      addAndroidDownloads: { useDownloadManager: true, notification: true, path: downloadPath },
     })
       .fetch('GET', event.url)
       .then(() => {
@@ -62,7 +66,8 @@ export async function imageDownload(
         });
         webViewRef.current?.postMessage(stringMessageObject);
       })
-      .catch(() => {
+      .catch((e: any) => {
+        console.log(e);
         const stringMessageObject = getStringPostMessageObject({
           type: WEBVIEW_MESSAGE_TYPE.SEND_TOAST_MESSAGE,
           data: FAILED_IMAGE_DOWNLOAD_MESSAGE,
