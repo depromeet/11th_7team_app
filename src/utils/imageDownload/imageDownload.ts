@@ -66,8 +66,7 @@ export async function imageDownload(
         });
         webViewRef.current?.postMessage(stringMessageObject);
       })
-      .catch((e: any) => {
-        console.log(e);
+      .catch(() => {
         const stringMessageObject = getStringPostMessageObject({
           type: WEBVIEW_MESSAGE_TYPE.SEND_TOAST_MESSAGE,
           data: FAILED_IMAGE_DOWNLOAD_MESSAGE,
