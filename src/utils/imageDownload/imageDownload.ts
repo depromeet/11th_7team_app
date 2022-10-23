@@ -50,9 +50,13 @@ export async function imageDownload(
   }
 
   if (Platform.OS === 'android') {
+    const { dirs } = RNFetchBlob.fs;
+    const downloadPath = dirs.DownloadDir + '/ygtang' + event.url;
+
     RNFetchBlob.config({
       fileCache: true,
-      addAndroidDownloads: { useDownloadManager: true, notification: true },
+      path: downloadPath,
+      addAndroidDownloads: { useDownloadManager: true, notification: true, path: downloadPath },
     })
       .fetch('GET', event.url)
       .then(() => {
