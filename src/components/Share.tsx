@@ -89,14 +89,26 @@ const Share = () => {
     );
   };
 
-  const onReciveMessage = async (event: WebViewMessageEvent) => {
+  const handleShareWebMessage = (data: { type: string; data: string }) => {
+    if (data.type !== SHARE_WEB_MESSAGE_STATE) return;
+    switch (data.data) {
+      case 'READY':
+        sendDataToWebView();
+        break;
+      case 'SHARE_COMPLETE':
+        ShareMenuReactView.dismissExtension();
+        break;
+      default:
+        return;
+    }
+  };
+
+  const onReceiveMessage = async (event: WebViewMessageEvent) => {
     const data = JSON.parse(event.nativeEvent.data);
     if (data.type === SYNC_YGT_RT) {
       await setRefreshToken(data.data);
     }
-    if (data.type === SHARE_WEB_MESSAGE_STATE && data.data === 'READY') {
-      sendDataToWebView();
-    }
+    handleShareWebMessage(data);
   };
 
   const getAddContentURI = () => {
@@ -156,7 +168,7 @@ const Share = () => {
           }}
           onNavigationStateChange={handleExternalLinks}
           onShouldStartLoadWithRequest={handleExternalLinks}
-          onMessage={onReciveMessage}
+          onMessage={onReceiveMessage}
         />
       )}
     </View>
