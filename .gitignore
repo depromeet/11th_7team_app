@@ -65,3 +65,6 @@ buck-out/
 
 # Vscode
 .vscode/
+
+# sentry
+*/sentry.properties

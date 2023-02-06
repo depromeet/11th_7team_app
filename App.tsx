@@ -6,10 +6,11 @@ import { ShareHandler } from '~/components/ShareHandler';
 import { YgtStatusBar } from '~/components/YgtStatusBar';
 import MainNavigator from '~/navigation/MainNavigator';
 import theme from '~/styles/theme';
+import { Sentry } from '~/utils/sentry';
 
 import 'react-native-gesture-handler';
 
-export default function App() {
+function App() {
   const [shareMenu, setShareMenu] = useState(false);
   const [shareData, setShareData] = useState<string | null>(null);
   const [shareMimeType, setShareMimeType] = useState<string | null>(null);
@@ -57,6 +58,7 @@ export default function App() {
     </>
   );
 }
+export default Sentry.wrap(App);
 
 const styles = StyleSheet.create({
   root: {
