@@ -5,6 +5,8 @@ import android.content.Context;
 import android.webkit.WebView;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
+import io.sentry.react.RNSentryPackage;
+import io.sentry.react.RNSentryPackage;
 import com.reactnativecommunity.webview.RNCWebViewPackage;
 import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactNativeHost;
@@ -60,6 +62,7 @@ public class MainApplication extends Application implements ReactApplication {
     initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
     WebView.setWebContentsDebuggingEnabled(true);
   }
+
 
   /**
    * Loads Flipper in React Native templates. Call this in the onCreate method with something like
