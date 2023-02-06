@@ -103,6 +103,8 @@ export const ShareHandler = ({ data, mimeType, handleClose, onMessage, onLoadEnd
   };
 
   const onReceiveMessage = async (event: WebViewMessageEvent) => {
+    if (typeof event.nativeEvent.data === 'string') return;
+
     if (onMessage) {
       onMessage(event);
     }
@@ -117,8 +119,6 @@ export const ShareHandler = ({ data, mimeType, handleClose, onMessage, onLoadEnd
     if (data.type === SHARE_WEB_MESSAGE_STATE && data.data === 'READY') {
       sendDataToWebView();
     }
-
-    console.log(data);
 
     // Android Share 닫기 핸들링
     if (

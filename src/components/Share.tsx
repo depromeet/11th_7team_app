@@ -104,6 +104,8 @@ const Share = () => {
   };
 
   const onReceiveMessage = async (event: WebViewMessageEvent) => {
+    if (typeof event.nativeEvent.data === 'string') return;
+
     const data = JSON.parse(event.nativeEvent.data);
     if (data.type === SYNC_YGT_RT) {
       await setRefreshToken(data.data);
