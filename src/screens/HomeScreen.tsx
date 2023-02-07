@@ -18,12 +18,14 @@ export default function HomeScreen() {
   };
 
   const onReceiveMessage = async (event: WebViewMessageEvent) => {
-    if (typeof event.nativeEvent.data === 'string') return;
+    try {
+      const data = JSON.parse(event.nativeEvent.data);
 
-    const data = JSON.parse(event.nativeEvent.data);
-
-    if (data.type === SYNC_YGT_RT) {
-      await setRefreshToken(data.data);
+      if (data.type === SYNC_YGT_RT) {
+        await setRefreshToken(data.data);
+      }
+    } catch (error) {
+      console.warn('[onReceiveMessage] received not json type');
     }
   };
 

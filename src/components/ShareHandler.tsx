@@ -103,31 +103,33 @@ export const ShareHandler = ({ data, mimeType, handleClose, onMessage, onLoadEnd
   };
 
   const onReceiveMessage = async (event: WebViewMessageEvent) => {
-    if (typeof event.nativeEvent.data === 'string') return;
+    try {
+      if (onMessage) {
+        onMessage(event);
+      }
+      const data = JSON.parse(event.nativeEvent.data);
 
-    if (onMessage) {
-      onMessage(event);
-    }
-    const data = JSON.parse(event.nativeEvent.data);
+      // ShareWebToken
+      if (Platform.OS === 'ios' && data.type === SYNC_YGT_RT) {
+        await setRefreshToken(data.data);
+      }
 
-    // ShareWebToken
-    if (Platform.OS === 'ios' && data.type === SYNC_YGT_RT) {
-      await setRefreshToken(data.data);
-    }
+      // 공유 핸들링
+      if (data.type === SHARE_WEB_MESSAGE_STATE && data.data === 'READY') {
+        sendDataToWebView();
+      }
 
-    // 공유 핸들링
-    if (data.type === SHARE_WEB_MESSAGE_STATE && data.data === 'READY') {
-      sendDataToWebView();
-    }
-
-    // Android Share 닫기 핸들링
-    if (
-      Platform.OS === 'android' &&
-      handleClose &&
-      (data.type === WEBVIEW_MESSAGE_TYPE.CREATED_INSPIRATION ||
-        data.type === WEBVIEW_MESSAGE_TYPE.CLOSED_INSPIRATION)
-    ) {
-      handleClose();
+      // Android Share 닫기 핸들링
+      if (
+        Platform.OS === 'android' &&
+        handleClose &&
+        (data.type === WEBVIEW_MESSAGE_TYPE.CREATED_INSPIRATION ||
+          data.type === WEBVIEW_MESSAGE_TYPE.CLOSED_INSPIRATION)
+      ) {
+        handleClose();
+      }
+    } catch (error) {
+      console.warn('[onReceiveMessage] received not json type');
     }
   };
 
