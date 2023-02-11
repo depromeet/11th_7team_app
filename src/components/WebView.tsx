@@ -146,6 +146,7 @@ export default function WebView({
         allowFileAccess
         allowFileAccessFromFileURLs
         allowUniversalAccessFromFileURLs
+        onContentProcessDidTerminate={() => webViewRef.current?.reload()}
       />
     </Animated.View>
   );
