@@ -1,3 +1,13 @@
+<br />
+
+<h3 align='center'>
+
+ `디프만 11기 대상 수상작 🎉`
+
+</h3>
+
+<br />
+
 ![Github-readme](https://user-images.githubusercontent.com/26461307/172001186-f07cfa73-8f3d-4329-bafc-389e2c70dc7d.png)
 
 <br />
@@ -6,7 +16,7 @@
 
 # 영감탱
 
-[![Total alerts](https://img.shields.io/lgtm/alerts/g/depromeet/11th_7team_web.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/depromeet/11th_7team_web/alerts/) [![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/depromeet/11th_7team_web.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/depromeet/11th_7team_web/context:javascript) [![check lint](https://github.com/depromeet/ygtang-app/actions/workflows/CI.yml/badge.svg)](https://github.com/depromeet/ygtang-app/actions/workflows/CI.yml)
+[![check lint](https://github.com/depromeet/ygtang-app/actions/workflows/CI.yml/badge.svg)](https://github.com/depromeet/ygtang-app/actions/workflows/CI.yml)
 
 여기저기 흩어져있는 넘치는 영감.
 
