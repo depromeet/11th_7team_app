@@ -135,6 +135,7 @@ export default function WebView({
             'X-Ygtang-App': 'true',
             'X-Ygtang-Platform': Platform.OS,
             'X-Ygtang-Version': version,
+            'X-Ygtang-Uri': uri,
           },
         }}
         bounces={false}
