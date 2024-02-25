@@ -8,6 +8,8 @@ import { useWebViewNavigateWrapping } from '~/hooks/useWebViewNavigateWrapping';
 import theme from '~/styles/theme';
 import { imageDownload } from '~/utils/imageDownload';
 
+import { version } from '../../package.json';
+
 interface WebViewProps {
   uri: string;
   // eslint-disable-next-line @typescript-eslint/ban-types
@@ -127,9 +129,17 @@ export default function WebView({
           if (!ref) return;
           webViewRef.current = ref;
         }}
-        source={{ uri }}
+        source={{
+          uri,
+          headers: {
+            'X-Ygtang-App': 'true',
+            'X-Ygtang-Platform': Platform.OS,
+            'X-Ygtang-Version': version,
+            'X-Ygtang-Uri': uri,
+          },
+        }}
         bounces={false}
-        applicationNameForUserAgent={'YgtangApp/1.0'}
+        applicationNameForUserAgent={`YgtangApp-${Platform.OS}/${version}`}
         allowsBackForwardNavigationGestures
         domStorageEnabled
         onError={() => {
