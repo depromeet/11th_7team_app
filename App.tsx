@@ -1,14 +1,15 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
+// import { GestureDetector } from 'react-native-gesture-handler';
 import ShareMenu from 'react-native-share-menu';
 
 import { ShareHandler } from '~/components/ShareHandler';
 import { YgtStatusBar } from '~/components/YgtStatusBar';
 import MainNavigator from '~/navigation/MainNavigator';
 import theme from '~/styles/theme';
-import { Sentry } from '~/utils/sentry';
 
-import 'react-native-gesture-handler';
+// import { Sentry } from '~/utils/sentry';
+//
 
 function App() {
   const [shareMenu, setShareMenu] = useState(false);
@@ -58,7 +59,8 @@ function App() {
     </>
   );
 }
-export default Sentry.wrap(App);
+export default App;
+// export default Sentry.wrap(App);
 
 const styles = StyleSheet.create({
   root: {

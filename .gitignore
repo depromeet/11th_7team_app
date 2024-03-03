@@ -68,3 +68,7 @@ buck-out/
 
 # sentry
 */sentry.properties
+# Expo
+.expo
+dist/
+web-build/

@@ -1,5 +1,5 @@
 import React from 'react';
-import Cameraroll from '@react-native-community/cameraroll';
+import { CameraRoll } from '@react-native-camera-roll/camera-roll';
 import { PermissionsAndroid, Platform } from 'react-native';
 import { WebView, WebViewNavigation } from 'react-native-webview';
 import RNFetchBlob from 'rn-fetch-blob';
@@ -76,7 +76,7 @@ export async function imageDownload(
     return;
   }
 
-  Cameraroll.save(event.url)
+  CameraRoll.save(event.url)
     .then(() => {
       const stringMessageObject = getStringPostMessageObject({
         type: WEBVIEW_MESSAGE_TYPE.SEND_TOAST_MESSAGE,
