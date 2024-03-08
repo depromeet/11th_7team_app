@@ -24,7 +24,7 @@ export default function SplashScreen({ navigation: { replace } }: SplashScreenPr
         autoPlay
         loop={false}
         duration={2000}
-        style={{ height: 374, backgroundColor: theme.color.gray02 }}
+        style={{ height: 374, width: 343, backgroundColor: theme.color.gray02 }}
         onAnimationFinish={onSplashFinish}
       />
     </View>

@@ -25,7 +25,7 @@ export default function HomeScreen() {
         await setRefreshToken(data.data);
       }
     } catch (error) {
-      console.warn('[onReceiveMessage] received not json type');
+      console.info('[onReceiveMessage] received not json type');
     }
   };
 
