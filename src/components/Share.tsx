@@ -15,6 +15,7 @@ import {
 import { useShareWebToken } from '~/hooks/useShareWebToken';
 import theme from '~/styles/theme';
 import { getStringPostMessageObject } from '~/utils/getStringPostMessageObject';
+import { uriToBlob } from '~/utils/uriToBlob';
 
 const CONTENT_TYPE = {
   IMAGE: 'IMAGE',
@@ -23,8 +24,7 @@ const CONTENT_TYPE = {
 } as const;
 
 async function urlTo64File(url: string): Promise<string | ArrayBuffer> {
-  const data = await fetch(url);
-  const blob = await data.blob();
+  const blob = await uriToBlob(url);
   return new Promise(resolve => {
     const reader = new FileReader();
     reader.readAsDataURL(blob);
@@ -111,7 +111,7 @@ const Share = () => {
       }
       handleShareWebMessage(data);
     } catch (error) {
-      console.warn('[onReceiveMessage] received not json type');
+      console.info('[onReceiveMessage] received not json type');
     }
   };
 
